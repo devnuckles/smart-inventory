@@ -1,6 +1,9 @@
 package repo
 
-import "github.com/aws/aws-sdk-go/service/s3"
+import (
+	"github.com/Tonmoy404/Smart-Inventory/service"
+	"github.com/aws/aws-sdk-go/service/s3"
+)
 
 type FileRepo interface {
 	service.FileRepo

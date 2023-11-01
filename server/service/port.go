@@ -1,11 +1,18 @@
 package service
 
-import "time"
+import (
+	"context"
+	"time"
+)
+
+type Service interface {
+}
 
 type UserRepo interface {
 }
 
 type ErrorRepo interface {
+	GetError(ctx context.Context, internalCode string) (*ErrorDetail, error)
 }
 
 type FileRepo interface {

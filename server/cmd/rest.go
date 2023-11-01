@@ -4,6 +4,8 @@ import (
 	"github.com/Tonmoy404/Smart-Inventory/cache"
 	"github.com/Tonmoy404/Smart-Inventory/config"
 	"github.com/Tonmoy404/Smart-Inventory/repo"
+	"github.com/Tonmoy404/Smart-Inventory/rest"
+	"github.com/Tonmoy404/Smart-Inventory/service"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/dynamodb"
@@ -35,11 +37,12 @@ func serveRest() {
 	// errorRepo := repo.NewErrorRepo(tableConfig.ErrorTableName, ddbClient)
 	userRepo := repo.NewUserRepo(ddbClient, tableConfig.UserTableName)
 	fileRepo := repo.NewFileRepo(s3Client, s3Config.Bucket)
+	errorRepo := repo.NewErrorRepo(tableConfig.ErrorTableName, ddbClient)
 
 	cache := cache.NewCache(redisClient)
 
-	svc := service.NewService(userRepo, fileRepo, errorRepo, cache, smtpConfig)
-	server, err := rest.NewServer(appConfig, svc, cognitoConfig, tokenConfig, saltConfig)
+	svc := service.NewService(userRepo, fileRepo, errorRepo, cache)
+	server, err := rest.NewServer(appConfig, svc, saltConfig, tokenConfig)
 	if err != nil {
 		panic("Server can not start")
 	}
