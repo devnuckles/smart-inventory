@@ -1,0 +1,8 @@
+.bashrc
+.idea
+.env
+
+# Terraform
+.terraform
+iac/terraform.tfstate
+iac/terraform.tfstate.backup
