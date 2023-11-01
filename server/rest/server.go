@@ -32,6 +32,8 @@ func (server *Server) setupRouter() {
 	router := gin.Default()
 
 	router.GET("/api/test", server.test)
+
+	server.router = router
 }
 
 func (server *Server) Start() error {
@@ -39,5 +41,5 @@ func (server *Server) Start() error {
 }
 
 func (server *Server) test(ctx *gin.Context) {
-	ctx.JSON(http.StatusOK, "testing")
+	ctx.JSON(http.StatusOK, "testing the server & its running successfully")
 }
