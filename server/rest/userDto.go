@@ -25,3 +25,12 @@ type addUserReq struct {
 	Role     string `json:"role" binding:"required,userRole"`
 	Status   string `json:"status" binding:"required,userStatus"`
 }
+
+type loginUserReq struct {
+	Email    string `json:"email" binding:"required,email"`
+	Password string `json:"password" binding:"required"`
+}
+
+type loginUserRes struct {
+	Token string `json:"token"`
+}

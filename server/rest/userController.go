@@ -2,10 +2,12 @@ package rest
 
 import (
 	"net/http"
+	"time"
 
 	"github.com/Tonmoy404/Smart-Inventory/logger"
 	"github.com/Tonmoy404/Smart-Inventory/service"
 	"github.com/Tonmoy404/Smart-Inventory/util"
+	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
@@ -147,4 +149,71 @@ func (s *Server) deleteUser(ctx *gin.Context) {
 	}
 
 	ctx.JSON(http.StatusOK, s.svc.Response(ctx, "Deleted user successfully", nil))
+}
+
+func (s *Server) loginUser(ctx *gin.Context) {
+	var req loginUserReq
+	err := ctx.ShouldBindJSON(&req)
+	if err != nil {
+		logger.Error(ctx, "cannot pass validation", err)
+		ctx.JSON(http.StatusBadRequest, s.svc.Error(ctx, util.EN_API_PARAMETER_INVALID_ERROR, "Bad request"))
+		return
+	}
+
+	user, err := s.svc.GetUserByEmail(ctx, req.Email)
+	if err != nil {
+		logger.Error(ctx, "cannot get user", err)
+		ctx.JSON(http.StatusInternalServerError, s.svc.Error(ctx, util.EN_INTERNAL_SERVER_ERROR, "Internal server error"))
+		return
+	}
+
+	if user == nil {
+		logger.Error(ctx, "user not found", err)
+		ctx.JSON(http.StatusNotFound, s.svc.Error(ctx, util.EN_NOT_FOUND, "Not Found"))
+		return
+	}
+
+	// if user.Status != "approved" {
+	// 	logger.Error(ctx, "Forbidden", err)
+	// 	ctx.JSON(http.StatusForbidden, s.svc.Response(ctx, util.EN_UNAUTHORIZED_ERROR, "Forbidden"))
+	// 	return
+	// }
+
+	err = bcrypt.CompareHashAndPassword([]byte(user.Password), ([]byte(req.Password)))
+	if err != nil {
+		logger.Error(ctx, "cannot decrypt the password", err)
+		ctx.JSON(http.StatusBadRequest, s.svc.Error(ctx, util.EN_API_PARAMETER_INVALID_ERROR, "Invalid Credentials"))
+		return
+	}
+
+	// create access token
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+		"id":           user.ID,
+		"username":     user.Username,
+		"full_name":    user.Fullname,
+		"email":        user.Email,
+		"phone_number": user.PhoneNumber,
+		"role":         user.Role,
+		"status":       user.Status,
+		"exp":          time.Now().Add(time.Hour * 24).Unix(),
+	})
+
+	accessToken, err := token.SignedString([]byte(s.jwt.SecretKey))
+	if err != nil {
+		logger.Error(ctx, "failed to generate token", err)
+		ctx.JSON(http.StatusInternalServerError, s.svc.Error(ctx, util.EN_INTERNAL_SERVER_ERROR, "Internal server error"))
+		return
+	}
+
+	res := loginUserRes{
+		Token: accessToken,
+	}
+
+	ctx.SetCookie("token", accessToken, 3600, "/", "", false, true)
+	ctx.JSON(http.StatusOK, s.svc.Response(ctx, "successfully logged in", res))
+}
+
+func (s *Server) logoutUser(ctx *gin.Context) {
+	ctx.SetCookie("token", "", -1, "/", "", false, true)
+	ctx.Status(http.StatusOK)
 }
