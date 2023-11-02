@@ -3,6 +3,7 @@ package cmd
 import (
 	"github.com/Tonmoy404/Smart-Inventory/cache"
 	"github.com/Tonmoy404/Smart-Inventory/config"
+	"github.com/Tonmoy404/Smart-Inventory/permission"
 	"github.com/Tonmoy404/Smart-Inventory/repo"
 	"github.com/Tonmoy404/Smart-Inventory/rest"
 	"github.com/Tonmoy404/Smart-Inventory/service"
@@ -37,10 +38,10 @@ func serveRest() {
 	userRepo := repo.NewUserRepo(ddbClient, tableConfig.UserTableName)
 	fileRepo := repo.NewFileRepo(s3Client, s3Config.Bucket)
 	errorRepo := repo.NewErrorRepo(tableConfig.ErrorTableName, ddbClient)
-
+	authorization := permission.NewAuthorization()
 	cache := cache.NewCache(redisClient)
 
-	svc := service.NewService(userRepo, fileRepo, errorRepo, cache)
+	svc := service.NewService(userRepo, fileRepo, errorRepo, cache, authorization)
 	server, err := rest.NewServer(appConfig, svc, saltConfig, tokenConfig)
 	if err != nil {
 		panic("Server can not start")

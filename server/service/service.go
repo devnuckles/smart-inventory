@@ -9,10 +9,11 @@ import (
 )
 
 type service struct {
-	userRepo UserRepo
-	fileRepo FileRepo
-	errRepo  ErrorRepo
-	cache    Cache
+	userRepo      UserRepo
+	fileRepo      FileRepo
+	errRepo       ErrorRepo
+	cache         Cache
+	authorization Authorization
 }
 
 func NewService(
@@ -20,12 +21,14 @@ func NewService(
 	fileRepo FileRepo,
 	errorRepo ErrorRepo,
 	cache Cache,
+	authorization Authorization,
 ) Service {
 	return &service{
-		userRepo: userRepo,
-		fileRepo: fileRepo,
-		errRepo:  errorRepo,
-		cache:    cache,
+		userRepo:      userRepo,
+		fileRepo:      fileRepo,
+		errRepo:       errorRepo,
+		cache:         cache,
+		authorization: authorization,
 	}
 }
 
@@ -86,8 +89,7 @@ func (s *service) Response(ctx context.Context, description string, data interfa
 	}
 }
 
+func (s *service) IsPermitted(ctx context.Context, role, action, object string) bool {
 
-// func (s *service) IsPermitted(ctx context.Context, role, action, object string) bool {
-
-// 	return s.authorization.IsPermitted(ctx, role, action, object)
-// }
+	return s.authorization.IsPermitted(ctx, role, action, object)
+}

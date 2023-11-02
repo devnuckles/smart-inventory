@@ -13,6 +13,7 @@ type Service interface {
 
 	Error(ctx context.Context, internalCode string, description string) *ErrorResponse
 	Response(ctx context.Context, description string, data interface{}) *ResponseData
+	IsPermitted(ctx context.Context, role, action, object string) bool
 }
 
 type UserRepo interface {
@@ -34,4 +35,8 @@ type Cache interface {
 	Get(key string) (string, error)
 	Delete(key string) error
 	GetTTL(key string) (time.Duration, error)
+}
+
+type Authorization interface {
+	IsPermitted(ctx context.Context, role, action, object string) bool
 }

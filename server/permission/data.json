@@ -1,0 +1,246 @@
+{
+  "roles": {
+    "super_admin": [
+      {
+        "action": "read",
+        "object": "user"
+      },
+      {
+        "action": "read",
+        "object": "users"
+      },
+      {
+        "action": "create",
+        "object": "user"
+      },
+      {
+        "action": "update",
+        "object": "user"
+      },
+      {
+        "action": "update",
+        "object": "user-role"
+      },
+      {
+        "action": "update",
+        "object": "user-status"
+      },
+      {
+        "action": "update",
+        "object": "user-password"
+      },
+      {
+        "action": "delete",
+        "object": "user"
+      },
+
+      {
+        "action": "read",
+        "object": "post"
+      },
+      {
+        "action": "read",
+        "object": "posts"
+      },
+      {
+        "action": "create",
+        "object": "post"
+      },
+      {
+        "action": "update",
+        "object": "post"
+      },
+      {
+        "action": "delete",
+        "object": "post"
+      },
+
+      {
+        "action": "read",
+        "object": "categories"
+      },
+      {
+        "action": "create",
+        "object": "category"
+      },
+      {
+        "action": "update",
+        "object": "category"
+      },
+      {
+        "action": "delete",
+        "object": "category"
+      },
+
+      {
+        "action": "read",
+        "object": "sections"
+      },
+      {
+        "action": "update",
+        "object": "section"
+      },
+      {
+        "action": "create",
+        "object": "headline"
+      },
+      {
+        "action": "update",
+        "object": "headline"
+      },
+      {
+        "action": "delete",
+        "object": "headline"
+      },
+      {
+        "action": "delete_multiple",
+        "object": "comment"
+      },
+      {
+        "action": "read",
+        "object": "comment"
+      }
+    ],
+    "admin": [
+      {
+        "action": "read",
+        "object": "user"
+      },
+      {
+        "action": "read",
+        "object": "users"
+      },
+      {
+        "action": "create",
+        "object": "user"
+      },
+      {
+        "action": "update",
+        "object": "user"
+      },
+      {
+        "action": "update",
+        "object": "user-status"
+      },
+      {
+        "action": "update",
+        "object": "user-role"
+      },
+      {
+        "action": "create",
+        "object": "user"
+      },
+      {
+        "action": "update",
+        "object": "user-role"
+      },
+      {
+        "action": "delete",
+        "object": "user-password"
+      },
+      {
+        "action": "delete",
+        "object": "user"
+      },
+
+      {
+        "action": "read",
+        "object": "post"
+      },
+      {
+        "action": "read",
+        "object": "posts"
+      },
+      {
+        "action": "create",
+        "object": "post"
+      },
+      {
+        "action": "update",
+        "object": "post"
+      },
+      {
+        "action": "delete",
+        "object": "post"
+      },
+
+      {
+        "action": "read",
+        "object": "categories"
+      },
+      {
+        "action": "create",
+        "object": "category"
+      },
+      {
+        "action": "update",
+        "object": "category"
+      },
+      {
+        "action": "delete",
+        "object": "category"
+      },
+
+      {
+        "action": "read",
+        "object": "sections"
+      },
+      {
+        "action": "update",
+        "object": "section"
+      },
+      {
+        "action": "create",
+        "object": "headline"
+      },
+      {
+        "action": "update",
+        "object": "headline"
+      },
+      {
+        "action": "delete",
+        "object": "headline"
+      },
+      {
+        "action": "delete_multiple",
+        "object": "comment"
+      }
+    ],
+    "reporter": [
+      {
+        "action": "read",
+        "object": "post"
+      },
+      {
+        "action": "read",
+        "object": "posts"
+      },
+      {
+        "action": "update",
+        "object": "post"
+      },
+      {
+        "action": "create",
+        "object": "post"
+      },
+      {
+        "action": "read",
+        "object": "categories"
+      },
+      {
+        "action": "create",
+        "object": "headline"
+      },
+      {
+        "action": "update",
+        "object": "headline"
+      }
+    ],
+    "user": [
+      {
+        "action": "read",
+        "object": "post"
+      }
+    ]
+  }
+}
