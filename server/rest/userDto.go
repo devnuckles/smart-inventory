@@ -18,3 +18,10 @@ type updatePasswordReq struct {
 	Password        string `json:"new_password" binding:"required,min=8,max=100"`
 	ConfirmPassword string `json:"confirm_password" binding:"required,eqfield=Password"`
 }
+
+type addUserReq struct {
+	Email    string `json:"email" binding:"required,email,max=100"`
+	Password string `json:"password" binding:"required,min=8,max=100"`
+	Role     string `json:"role" binding:"required,userRole"`
+	Status   string `json:"status" binding:"required,userStatus"`
+}

@@ -88,6 +88,5 @@ func (r *userRepo) GetItemByEmail(ctx context.Context, email string) (*service.U
 	if err != nil {
 		return nil, fmt.Errorf("failed to unmarshal DynamoDB item: %v", err)
 	}
-
 	return user, nil
 }
