@@ -6,9 +6,15 @@ import (
 )
 
 type Service interface {
+	Error(ctx context.Context, internalCode string, description string) *ErrorResponse
+	GetUserByEmail(ctx context.Context, email string) (*User, error)
+	CreateUser(ctx context.Context, user *User) error
+	Response(ctx context.Context, description string, data interface{}) *ResponseData
 }
 
 type UserRepo interface {
+	Create(ctx context.Context, user *User) error
+	GetItemByEmail(ctx context.Context, email string) (*User, error)
 }
 
 type ErrorRepo interface {

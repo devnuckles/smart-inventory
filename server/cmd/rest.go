@@ -34,7 +34,6 @@ func serveRest() {
 		Addr: "localhost:6379",
 	})
 
-	// errorRepo := repo.NewErrorRepo(tableConfig.ErrorTableName, ddbClient)
 	userRepo := repo.NewUserRepo(ddbClient, tableConfig.UserTableName)
 	fileRepo := repo.NewFileRepo(s3Client, s3Config.Bucket)
 	errorRepo := repo.NewErrorRepo(tableConfig.ErrorTableName, ddbClient)

@@ -3,8 +3,7 @@ package service
 type User struct {
 	ID          string `json:"Id"`
 	Username    string `json:"Username"`
-	Firstname   string `json:"FirstName"`
-	Lastname    string `json:"LastName"`
+	Fullname    string `json:"Fullname"`
 	Email       string `json:"Email"`
 	Password    string `json:"Password"`
 	PhoneNumber string `json:"PhoneNumber"`
