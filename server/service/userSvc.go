@@ -22,3 +22,12 @@ func (s *service) CreateUser(ctx context.Context, user *User) error {
 
 	return nil
 }
+
+func (s *service) DeleteUser(ctx context.Context, id string) error {
+	err := s.userRepo.DeleteItemByID(ctx, id)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

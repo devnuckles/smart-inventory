@@ -90,3 +90,64 @@ func (r *userRepo) GetItemByEmail(ctx context.Context, email string) (*service.U
 	}
 	return user, nil
 }
+
+func (r *userRepo) GetItemByID(ctx context.Context, id string) (*service.User, error) {
+	input := &dynamodb.GetItemInput{
+		TableName: aws.String(r.tableName),
+		Key: map[string]*dynamodb.AttributeValue{
+			"Id": {
+				S: aws.String(id),
+			},
+		},
+	}
+
+	result, err := r.svc.GetItemWithContext(ctx, input)
+	if err != nil {
+		if aerr, ok := err.(awserr.Error); ok {
+			return nil, fmt.Errorf("failed to get item: %v - %v", aerr.Code(), aerr.Message())
+		}
+		return nil, fmt.Errorf("failed to get item: %v", err)
+	}
+
+	if result.Item == nil {
+		return nil, nil
+	}
+
+	var user *service.User
+	err = dynamodbattribute.UnmarshalMap(result.Item, &user)
+	if err != nil {
+		return nil, fmt.Errorf("failed to unmarshal DynamoDB item: %v", err)
+	}
+
+	return user, nil
+}
+
+func (r *userRepo) DeleteItemByID(ctx context.Context, id string) error {
+	u, err := r.GetItemByID(ctx, id)
+	if err != nil {
+		return err
+	}
+
+	if u == nil {
+		return nil
+	}
+
+	input := &dynamodb.DeleteItemInput{
+		TableName: aws.String(r.tableName),
+		Key: map[string]*dynamodb.AttributeValue{
+			"Id": {
+				S: aws.String(u.ID),
+			},
+		},
+	}
+
+	_, err = r.svc.DeleteItemWithContext(ctx, input)
+	if err != nil {
+		if aerr, ok := err.(awserr.Error); ok {
+			return fmt.Errorf("failed to delete item: %v - %v", aerr.Code(), aerr.Message())
+		}
+		return fmt.Errorf("failed to delete item: %v", err)
+	}
+
+	return nil
+}

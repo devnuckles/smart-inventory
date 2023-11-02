@@ -136,3 +136,15 @@ func (s *Server) addUser(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusCreated, s.svc.Response(ctx, "Successfully created", nil))
 }
+
+func (s *Server) deleteUser(ctx *gin.Context) {
+	id := ctx.Param("id")
+	err := s.svc.DeleteUser(ctx, id)
+	if err != nil {
+		logger.Error(ctx, "cannot delete user", err)
+		ctx.JSON(http.StatusInternalServerError, s.svc.Error(ctx, util.EN_INTERNAL_SERVER_ERROR, "Internal Server Error"))
+		return
+	}
+
+	ctx.JSON(http.StatusOK, s.svc.Response(ctx, "Deleted user successfully", nil))
+}

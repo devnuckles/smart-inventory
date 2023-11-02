@@ -6,15 +6,20 @@ import (
 )
 
 type Service interface {
-	Error(ctx context.Context, internalCode string, description string) *ErrorResponse
+	//User Service
 	GetUserByEmail(ctx context.Context, email string) (*User, error)
 	CreateUser(ctx context.Context, user *User) error
+	DeleteUser(ctx context.Context, id string) error
+
+	Error(ctx context.Context, internalCode string, description string) *ErrorResponse
 	Response(ctx context.Context, description string, data interface{}) *ResponseData
 }
 
 type UserRepo interface {
 	Create(ctx context.Context, user *User) error
 	GetItemByEmail(ctx context.Context, email string) (*User, error)
+	DeleteItemByID(ctx context.Context, id string) error
+	GetItemByID(ctx context.Context, id string) (*User, error)
 }
 
 type ErrorRepo interface {
