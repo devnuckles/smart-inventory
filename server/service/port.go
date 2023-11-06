@@ -10,6 +10,7 @@ type Service interface {
 	GetUserByEmail(ctx context.Context, email string) (*User, error)
 	CreateUser(ctx context.Context, user *User) error
 	DeleteUser(ctx context.Context, id string) error
+	GetUserByID(ctx context.Context, id string) (*User, error)
 
 	Error(ctx context.Context, internalCode string, description string) *ErrorResponse
 	Response(ctx context.Context, description string, data interface{}) *ResponseData

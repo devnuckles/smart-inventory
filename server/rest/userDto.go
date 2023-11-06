@@ -34,3 +34,15 @@ type loginUserReq struct {
 type loginUserRes struct {
 	Token string `json:"token"`
 }
+
+type userResponse struct {
+	ID          string `json:"id"`
+	Username    string `json:"username"`
+	Fullname    string `json:"fullname"`
+	Email       string `json:"email"`
+	Role        string `json:"role"`
+	PhoneNumber string `json:"phone_number"`
+	PostCounts  int64  `json:"post_counts"`
+	Status      string `json:"status"`
+	CreatedAt   int64  `json:"created_at"`
+}

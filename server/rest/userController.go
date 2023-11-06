@@ -217,3 +217,27 @@ func (s *Server) logoutUser(ctx *gin.Context) {
 	ctx.SetCookie("token", "", -1, "/", "", false, true)
 	ctx.Status(http.StatusOK)
 }
+
+func(s *Server) getUserProfile(ctx *gin.Context){
+	id := ctx.Param("id")
+	user, err := s.svc.GetUserByID(ctx, id)
+	if err != nil {
+		logger.Error(ctx, "cannot get user", err)
+		ctx.JSON(http.StatusNotFound, s.svc.Error(ctx, util.EN_NOT_FOUND, "Not Found"))
+		return
+	}
+
+	if user == nil {
+		logger.Error(ctx, "user not found", err)
+		ctx.JSON(http.StatusNotFound, s.svc.Error(ctx, util.EN_API_PARAMETER_INVALID_ERROR, "Not Found"))
+		return
+	}
+
+	userRes := userResponse{
+		ID:       user.ID,
+		Username: user.Username,
+		Email:    user.Email,
+	}
+
+	ctx.JSON(http.StatusOK, s.svc.Response(ctx, "Fetched user successfully", userRes))
+}

@@ -14,6 +14,15 @@ func (s *service) GetUserByEmail(ctx context.Context, email string) (*User, erro
 	return user, nil
 }
 
+func (s *service) GetUserByID(ctx context.Context, id string) (*User, error) {
+	user, err := s.userRepo.GetItemByID(ctx, id)
+	if err != nil {
+		return nil, err
+	}
+
+	return user, nil
+}
+
 func (s *service) CreateUser(ctx context.Context, user *User) error {
 	err := s.userRepo.Create(ctx, user)
 	if err != nil {
