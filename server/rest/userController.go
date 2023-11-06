@@ -218,7 +218,7 @@ func (s *Server) logoutUser(ctx *gin.Context) {
 	ctx.Status(http.StatusOK)
 }
 
-func(s *Server) getUserProfile(ctx *gin.Context){
+func (s *Server) getUser(ctx *gin.Context) {
 	id := ctx.Param("id")
 	user, err := s.svc.GetUserByID(ctx, id)
 	if err != nil {
@@ -240,4 +240,28 @@ func(s *Server) getUserProfile(ctx *gin.Context){
 	}
 
 	ctx.JSON(http.StatusOK, s.svc.Response(ctx, "Fetched user successfully", userRes))
+}
+
+func (s *Server) getUserProfile(ctx *gin.Context) {
+	// decode cookie
+	authPayload := ctx.MustGet(authorizationPayloadKey).(Payload)
+
+	user, err := s.svc.GetUserByID(ctx, authPayload.ID)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Internal server error"})
+		return
+	}
+
+	loggedInUserData := userResponse{
+		ID:          user.ID,
+		Username:    user.Username,
+		Email:       user.Email,
+		Fullname:    user.Fullname,
+		Role:        user.Role,
+		PhoneNumber: user.PhoneNumber,
+		Status:      user.Status,
+		CreatedAt:   user.CreatedAt,
+	}
+
+	ctx.JSON(http.StatusOK, s.svc.Response(ctx, "Logged in user data", loggedInUserData))
 }
