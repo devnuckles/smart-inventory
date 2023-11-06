@@ -10,7 +10,7 @@ import (
 	"github.com/google/uuid"
 )
 
-func (s *Server) CreateProduct(ctx *gin.Context) {
+func (s *Server) createProduct(ctx *gin.Context) {
 	var req CreateProductRequest
 	err := ctx.ShouldBindJSON(&req)
 	if err != nil {
@@ -20,6 +20,10 @@ func (s *Server) CreateProduct(ctx *gin.Context) {
 	}
 
 	productID, err := uuid.NewUUID()
+	if err != nil {
+		logger.Error(ctx, "cannot generate productID", err)
+		ctx.JSON(http.StatusInternalServerError, s.svc.Error(ctx, util.EN_INTERNAL_SERVER_ERROR, "Internal Server Error"))
+	}
 	product := &service.Product{
 		ID:          productID.String(),
 		Name:        req.Name,
@@ -37,7 +41,7 @@ func (s *Server) CreateProduct(ctx *gin.Context) {
 	ctx.JSON(http.StatusCreated, s.svc.Response(ctx, "Product Created Successfully", pro))
 }
 
-func (s *Server) UpdateProduct(ctx *gin.Context) {
+func (s *Server) updateProduct(ctx *gin.Context) {
 	id := ctx.Param("id")
 
 	var req UpdateProductReq

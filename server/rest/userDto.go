@@ -6,12 +6,12 @@ type signupUserReq struct {
 	ConfirmPassword string `json:"confirm_password" binding:"required,eqfield=Password"`
 }
 
-type updateUserReq struct {
-	Email       string `json:"email" binding:"required,email"`
-	Username    string `json:"username"`
-	Fullname    string `json:"fullname"`
-	PhoneNumber string `json:"phone_number"`
-}
+// type updateUserReq struct {
+// 	Email       string `json:"email" binding:"required,email"`
+// 	Username    string `json:"username"`
+// 	Fullname    string `json:"fullname"`
+// 	PhoneNumber string `json:"phone_number"`
+// }
 
 type updatePasswordReq struct {
 	OldPassword     string `json:"old_password" binding:"required"`

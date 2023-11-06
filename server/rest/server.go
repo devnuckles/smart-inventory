@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/Tonmoy404/Smart-Inventory/config"
+	"github.com/Tonmoy404/Smart-Inventory/logger"
 	"github.com/Tonmoy404/Smart-Inventory/service"
 	"github.com/gin-gonic/gin"
 )
@@ -31,17 +32,30 @@ func NewServer(appConfig *config.Application, svc service.Service, salt *config.
 func (server *Server) setupRouter() {
 	router := gin.Default()
 
+	// CORS middleware
+	router.Use(corsMiddleware)
+
+	// log middleware
+	router.Use(logger.ModifyContext)
+
 	router.GET("/api/test", server.test)
 	router.POST("/api/users/signup", server.signupUser)
 	router.POST("/api/users/login", server.loginUser)
 
 	authRoutes := router.Group("/").Use(server.authMiddleware())
 
-	authRoutes.POST("/api/users/:id", server.deleteUser)
+	authRoutes.POST("/api/users/add", server.addUser)
+	authRoutes.DELETE("/api/users/:id", server.deleteUser)
 	authRoutes.GET("/api/users/:id", server.getUser)
 	authRoutes.POST("/api/users/logout", server.logoutUser)
 	authRoutes.GET("/api/users/profile", server.getUserProfile)
 	authRoutes.PATCH("/api/users/password", server.changePassword)
+
+	///product routes
+
+	authRoutes.POST("/api/item/create", server.createProduct)
+	authRoutes.DELETE("/api/item/:id", server.deleteProduct)
+	authRoutes.PATCH("/api/item/:id", server.updateProduct)
 
 	server.router = router
 }
