@@ -266,7 +266,7 @@ func (s *Server) getUserProfile(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, s.svc.Response(ctx, "Logged in user data", loggedInUserData))
 }
 
-func (s *Server) uchangePassword(ctx *gin.Context) {
+func (s *Server) changePassword(ctx *gin.Context) {
 	authPayload := ctx.MustGet(authorizationPayloadKey).(Payload)
 
 	user, err := s.svc.GetUserByID(ctx, authPayload.ID)
