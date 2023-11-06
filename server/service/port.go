@@ -13,6 +13,9 @@ type Service interface {
 	GetUserByID(ctx context.Context, id string) (*User, error)
 	UpdateUser(ctx context.Context, user *User) error
 
+	/////Product Services
+	CreateProduct(ctx context.Context, product *Product) (*Product, error)
+
 	Error(ctx context.Context, internalCode string, description string) *ErrorResponse
 	Response(ctx context.Context, description string, data interface{}) *ResponseData
 	IsPermitted(ctx context.Context, role, action, object string) bool
@@ -24,6 +27,10 @@ type UserRepo interface {
 	DeleteItemByID(ctx context.Context, id string) error
 	GetItemByID(ctx context.Context, id string) (*User, error)
 	UpdateItemByID(ctx context.Context, user *User) error
+}
+
+type ProductRepo interface {
+	CreateProduct(ctx context.Context, product *Product) (*Product, error)
 }
 
 type ErrorRepo interface {

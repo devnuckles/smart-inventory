@@ -14,10 +14,12 @@ type service struct {
 	errRepo       ErrorRepo
 	cache         Cache
 	authorization Authorization
+	productRepo   ProductRepo
 }
 
 func NewService(
 	userRepo UserRepo,
+	productRepo ProductRepo,
 	fileRepo FileRepo,
 	errorRepo ErrorRepo,
 	cache Cache,
@@ -25,6 +27,7 @@ func NewService(
 ) Service {
 	return &service{
 		userRepo:      userRepo,
+		productRepo:   productRepo,
 		fileRepo:      fileRepo,
 		errRepo:       errorRepo,
 		cache:         cache,

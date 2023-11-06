@@ -21,8 +21,9 @@ type Application struct {
 }
 
 type Table struct {
-	ErrorTableName string `mapstructure:"ERROR_TABLE_NAME"`
-	UserTableName  string `mapstructure:"USER_TABLE_NAME"`
+	ErrorTableName   string `mapstructure:"ERROR_TABLE_NAME"`
+	UserTableName    string `mapstructure:"USER_TABLE_NAME"`
+	ProdcutTableName string `mapstructure:"PRODUCT_TABLE_NAME"`
 }
 
 type Aws struct {
@@ -88,7 +89,9 @@ func loadTable() {
 	viper.AutomaticEnv()
 
 	tableConfig = &Table{
-		UserTableName: viper.GetString("USER_TABLE_NAME"),
+		UserTableName:    viper.GetString("USER_TABLE_NAME"),
+		ErrorTableName:   viper.GetString("ERROR_TABLE_NAME"),
+		ProdcutTableName: viper.GetString("PRODUCT_TABLE_NAME"),
 	}
 }
 
