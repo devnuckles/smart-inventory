@@ -15,7 +15,6 @@ type Server struct {
 	svc       service.Service
 	jwt       *config.Token
 	salt      *config.Salt
-
 }
 
 func NewServer(appConfig *config.Application, svc service.Service, salt *config.Salt, jwt *config.Token) (*Server, error) {
@@ -39,7 +38,10 @@ func (server *Server) setupRouter() {
 	authRoutes := router.Group("/").Use(server.authMiddleware())
 
 	authRoutes.POST("/api/users/:id", server.deleteUser)
-	authRoutes.POST("/api/user/logout", server.logoutUser)
+	authRoutes.GET("/api/users/:id", server.getUser)
+	authRoutes.POST("/api/users/logout", server.logoutUser)
+	authRoutes.GET("/api/users/profile", server.getUserProfile)
+	authRoutes.PATCH("/api/users/password", server.changePassword)
 
 	server.router = router
 }
