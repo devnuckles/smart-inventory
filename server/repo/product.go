@@ -90,3 +90,24 @@ func (r *productRepo) UpdateProduct(ctx context.Context, product *service.Produc
 
 	return nil
 }
+
+func (r *productRepo) DeleteProductById(ctx context.Context, id string) error {
+	input := &dynamodb.DeleteItemInput{
+		TableName: aws.String(r.tableName),
+		Key: map[string]*dynamodb.AttributeValue{
+			"Id": {
+				S: aws.String(id),
+			},
+		},
+	}
+
+	_, err := r.svc.DeleteItemWithContext(ctx, input)
+	if err != nil {
+		if aerr, ok := err.(awserr.Error); ok {
+			return fmt.Errorf("failed to delete item: %v - %v", aerr.Code(), aerr.Message())
+		}
+		return fmt.Errorf("failed to delete item: %v", err)
+	}
+
+	return nil
+}

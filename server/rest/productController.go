@@ -65,3 +65,15 @@ func (s *Server) UpdateProduct(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusOK, s.svc.Response(ctx, "Product Updated Successfully", nil))
 }
+
+func (s *Server) deleteProduct(ctx *gin.Context) {
+	id := ctx.Param("id")
+	err := s.svc.DeleteProduct(ctx, id)
+	if err != nil {
+		logger.Error(ctx, "cannot delete product", err)
+		ctx.JSON(http.StatusInternalServerError, s.svc.Error(ctx, util.EN_INTERNAL_SERVER_ERROR, "Internal Server Error"))
+		return
+	}
+
+	ctx.JSON(http.StatusOK, s.svc.Response(ctx, "Product user successfully", nil))
+}

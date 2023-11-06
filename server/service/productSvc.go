@@ -19,3 +19,11 @@ func (s *service) UpdateProduct(ctx context.Context, updatedProduct *Product) er
 	}
 	return nil
 }
+
+func (s *service) DeleteProduct(ctx context.Context, id string) error {
+	err := s.productRepo.DeleteProductById(ctx, id)
+	if err != nil {
+		return err
+	}
+	return nil
+}
