@@ -36,3 +36,32 @@ func (s *Server) CreateProduct(ctx *gin.Context) {
 	}
 	ctx.JSON(http.StatusCreated, s.svc.Response(ctx, "Product Created Successfully", pro))
 }
+
+func (s *Server) UpdateProduct(ctx *gin.Context) {
+	id := ctx.Param("id")
+
+	var req UpdateProductReq
+	err := ctx.ShouldBindJSON(&req)
+	if err != nil {
+		logger.Error(ctx, "cannot pass validation", err)
+		ctx.JSON(http.StatusBadRequest, s.svc.Error(ctx, util.EN_API_PARAMETER_INVALID_ERROR, "Bad Request"))
+		return
+	}
+
+	updatedProduct := &service.Product{
+		ID:          id,
+		Name:        req.Name,
+		Description: req.Description,
+		Price:       req.Price,
+		Quantity:    req.Quantity,
+	}
+
+	err = s.svc.UpdateProduct(ctx, updatedProduct)
+	if err != nil {
+		logger.Error(ctx, "cannot update product", err)
+		ctx.JSON(http.StatusInternalServerError, s.svc.Error(ctx, util.EN_INTERNAL_SERVER_ERROR, "Internal Server Error"))
+		return
+	}
+
+	ctx.JSON(http.StatusOK, s.svc.Response(ctx, "Product Updated Successfully", nil))
+}

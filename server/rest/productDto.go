@@ -14,3 +14,10 @@ type CreateProductResponse struct {
 	Price       float64 `json:"price"`
 	Quantity    int64   `json:"quantity"`
 }
+
+type UpdateProductReq struct {
+	Name        string  `json:"name" binding:"required"`
+	Description string  `json:"description"`
+	Price       float64 `json:"price" binding:"required"`
+	Quantity    int64   `json:"quantity" binding:"required"`
+}
