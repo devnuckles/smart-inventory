@@ -40,3 +40,12 @@ func (s *service) DeleteUser(ctx context.Context, id string) error {
 
 	return nil
 }
+
+func (s *service) UpdateUser(ctx context.Context, user *User) error {
+	err := s.userRepo.UpdateItemByID(ctx, user)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

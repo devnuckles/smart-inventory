@@ -265,3 +265,53 @@ func (s *Server) getUserProfile(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusOK, s.svc.Response(ctx, "Logged in user data", loggedInUserData))
 }
+
+func (s *Server) uchangePassword(ctx *gin.Context) {
+	authPayload := ctx.MustGet(authorizationPayloadKey).(Payload)
+
+	user, err := s.svc.GetUserByID(ctx, authPayload.ID)
+	if err != nil {
+		logger.Error(ctx, "cannot get user", err)
+		ctx.JSON(http.StatusInternalServerError, s.svc.Error(ctx, util.EN_INTERNAL_SERVER_ERROR, "Internal Server Error"))
+		return
+	}
+
+	if user == nil {
+		logger.Error(ctx, "user not found", err)
+		ctx.JSON(http.StatusNotFound, s.svc.Error(ctx, util.EN_NOT_FOUND, "Not Found"))
+		return
+	}
+
+	var req updatePasswordReq
+	err = ctx.ShouldBindJSON(&req)
+	if err != nil {
+		logger.Error(ctx, "cannot pass validation", err)
+		ctx.JSON(http.StatusBadRequest, s.svc.Error(ctx, util.EN_API_PARAMETER_INVALID_ERROR, "Bad request"))
+		return
+	}
+
+	err = bcrypt.CompareHashAndPassword([]byte(user.Password), ([]byte(req.OldPassword)))
+	if err != nil {
+		logger.Error(ctx, "cannot decrypt the password", err)
+		ctx.JSON(http.StatusBadRequest, s.svc.Error(ctx, util.EN_API_PARAMETER_INVALID_ERROR, "Invalid Password"))
+		return
+	}
+
+	hashedPass, err := bcrypt.GenerateFromPassword([]byte(req.Password), s.salt.SecretKey)
+	if err != nil {
+		logger.Error(ctx, "cannot hash the password", err)
+		ctx.JSON(http.StatusInternalServerError, s.svc.Error(ctx, util.EN_INTERNAL_SERVER_ERROR, "Internal server error"))
+		return
+	}
+
+	user.Password = string(hashedPass)
+
+	err = s.svc.UpdateUser(ctx, user)
+	if err != nil {
+		logger.Error(ctx, "cannot update user password", err)
+		ctx.JSON(http.StatusInternalServerError, s.svc.Error(ctx, util.EN_INTERNAL_SERVER_ERROR, "Internal Server Error"))
+		return
+	}
+
+	ctx.JSON(http.StatusOK, s.svc.Response(ctx, "Updated Password Successfully", nil))
+}

@@ -151,3 +151,66 @@ func (r *userRepo) DeleteItemByID(ctx context.Context, id string) error {
 
 	return nil
 }
+
+func (r *userRepo) UpdateItemByID(ctx context.Context, user *service.User) error {
+	u, err := r.GetItemByID(ctx, user.ID)
+	if err != nil {
+		return err
+	}
+
+	if u == nil {
+		return nil
+	}
+
+	input := &dynamodb.UpdateItemInput{
+		TableName: aws.String(r.tableName),
+		Key: map[string]*dynamodb.AttributeValue{
+			"Id": {
+				S: aws.String(user.ID),
+			},
+		},
+		ExpressionAttributeValues: map[string]*dynamodb.AttributeValue{
+			":e": {
+				S: aws.String(user.Email),
+			},
+			":p": {
+				S: aws.String(user.Password),
+			},
+			":f": {
+				S: aws.String(user.Fullname),
+			},
+			":n": {
+				S: aws.String(user.PhoneNumber),
+			},
+			":u": {
+				S: aws.String(user.Username),
+			},
+			":r": {
+				S: aws.String(user.Role),
+			},
+			":sts": {
+				S: aws.String(user.Status),
+			},
+		},
+		UpdateExpression: aws.String("SET #e = :e, #p = :p, #f = :f, #n = :n, #u = :u, #r = :r, #sts = :sts, #pc = :pc"),
+		ExpressionAttributeNames: map[string]*string{
+			"#e":   aws.String("Email"),
+			"#p":   aws.String("Password"),
+			"#f":   aws.String("Fullname"),
+			"#n":   aws.String("PhoneNumber"),
+			"#u":   aws.String("Username"),
+			"#r":   aws.String("Role"),
+			"#sts": aws.String("Status"),
+		},
+	}
+
+	_, err = r.svc.UpdateItemWithContext(ctx, input)
+	if err != nil {
+		if aerr, ok := err.(awserr.Error); ok {
+			return fmt.Errorf("failed to update item: %v - %v", aerr.Code(), aerr.Message())
+		}
+		return fmt.Errorf("failed to update item: %v", err)
+	}
+
+	return nil
+}

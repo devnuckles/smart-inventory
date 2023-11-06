@@ -11,6 +11,7 @@ type Service interface {
 	CreateUser(ctx context.Context, user *User) error
 	DeleteUser(ctx context.Context, id string) error
 	GetUserByID(ctx context.Context, id string) (*User, error)
+	UpdateUser(ctx context.Context, user *User) error
 
 	Error(ctx context.Context, internalCode string, description string) *ErrorResponse
 	Response(ctx context.Context, description string, data interface{}) *ResponseData
@@ -22,6 +23,7 @@ type UserRepo interface {
 	GetItemByEmail(ctx context.Context, email string) (*User, error)
 	DeleteItemByID(ctx context.Context, id string) error
 	GetItemByID(ctx context.Context, id string) (*User, error)
+	UpdateItemByID(ctx context.Context, user *User) error
 }
 
 type ErrorRepo interface {
