@@ -121,3 +121,16 @@ func (s *Server) updateOrder(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusOK, s.svc.Response(ctx, "Order Updated Successfully", order))
 }
+
+func (s *Server) getAllOrders(ctx *gin.Context){
+	orders, err := s.svc.GetAllOrders(ctx)
+	if err != nil {
+		logger.Error(ctx, "cannot get all orders", err)
+		ctx.JSON(http.StatusInternalServerError, s.svc.Response(ctx, util.EN_INTERNAL_SERVER_ERROR, "Internal Server Error"))
+		return
+	}
+
+	var orderRes []*orderResponse
+	for _, or := range orders
+
+}

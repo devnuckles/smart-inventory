@@ -8,3 +8,7 @@ type Order struct {
 	TotalAmount float64 `json:"TotalAmount"`
 	OrderDate   int64   `json:"OrderDate"`
 }
+
+type OrdersResult struct {
+	Orders []*Order `json:"Orders"`
+}

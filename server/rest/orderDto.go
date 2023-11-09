@@ -20,3 +20,11 @@ type orderRes struct {
 	Quantity    int64   `json:"quantity" `
 	TotalAmount float64 `json:"total_amount" `
 }
+
+type orderResponse struct {
+	OrderId     string  `json:"order_id"`
+	ProductID   string  `json:"product_id"`
+	CustomerID  string  `json:"customer_id"`
+	Quantity    int64   `json:"quantity"`
+	TotalAmount float64 `json:"total_amount"`
+}
