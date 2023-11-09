@@ -46,3 +46,10 @@ type userResponse struct {
 	Status      string `json:"status"`
 	CreatedAt   int64  `json:"created_at"`
 }
+
+type updateUserReq struct {
+	Email       string `json:"email" binding:"required,email"`
+	Username    string `json:"username"`
+	Fullname    string `json:"fullname"`
+	PhoneNumber string `json:"phone_number"`
+}

@@ -139,18 +139,6 @@ func (s *Server) addUser(ctx *gin.Context) {
 	ctx.JSON(http.StatusCreated, s.svc.Response(ctx, "Successfully created", nil))
 }
 
-func (s *Server) deleteUser(ctx *gin.Context) {
-	id := ctx.Param("id")
-	err := s.svc.DeleteUser(ctx, id)
-	if err != nil {
-		logger.Error(ctx, "cannot delete user", err)
-		ctx.JSON(http.StatusInternalServerError, s.svc.Error(ctx, util.EN_INTERNAL_SERVER_ERROR, "Internal Server Error"))
-		return
-	}
-
-	ctx.JSON(http.StatusOK, s.svc.Response(ctx, "Deleted user successfully", nil))
-}
-
 func (s *Server) loginUser(ctx *gin.Context) {
 	var req loginUserReq
 	err := ctx.ShouldBindJSON(&req)
@@ -211,6 +199,56 @@ func (s *Server) loginUser(ctx *gin.Context) {
 
 	ctx.SetCookie("token", accessToken, 3600, "/", "", false, true)
 	ctx.JSON(http.StatusOK, s.svc.Response(ctx, "successfully logged in", res))
+}
+
+func (s *Server) deleteUser(ctx *gin.Context) {
+	id := ctx.Param("id")
+	err := s.svc.DeleteUser(ctx, id)
+	if err != nil {
+		logger.Error(ctx, "cannot delete user", err)
+		ctx.JSON(http.StatusInternalServerError, s.svc.Error(ctx, util.EN_INTERNAL_SERVER_ERROR, "Internal Server Error"))
+		return
+	}
+
+	ctx.JSON(http.StatusOK, s.svc.Response(ctx, "Deleted user successfully", nil))
+}
+
+func (s *Server) updateUser(ctx *gin.Context) {
+	authPayload := ctx.MustGet(authorizationPayloadKey).(Payload)
+	user, err := s.svc.GetUserByID(ctx, authPayload.ID)
+	if err != nil {
+		logger.Error(ctx, "cannot get user", err)
+		ctx.JSON(http.StatusInternalServerError, s.svc.Error(ctx, util.EN_INTERNAL_SERVER_ERROR, "Internal Server Error"))
+		return
+	}
+
+	if user == nil {
+		logger.Error(ctx, "user not found", err)
+		ctx.JSON(http.StatusNotFound, s.svc.Error(ctx, util.EN_NOT_FOUND, "Not Found"))
+		return
+	}
+
+	var req updateUserReq
+	err = ctx.ShouldBindJSON(&req)
+	if err != nil {
+		logger.Error(ctx, "cannot pass validation", err)
+		ctx.JSON(http.StatusInternalServerError, s.svc.Error(ctx, util.EN_INTERNAL_SERVER_ERROR, "Internal server error"))
+		return
+	}
+
+	user.Username = req.Username
+	user.Fullname = req.Fullname
+	user.Email = req.Email
+	user.PhoneNumber = req.PhoneNumber
+
+	err = s.svc.UpdateUser(ctx, user)
+	if err != nil {
+		logger.Error(ctx, "cannot update user", err)
+		ctx.JSON(http.StatusInternalServerError, s.svc.Error(ctx, util.EN_INTERNAL_SERVER_ERROR, "Internal Server Error"))
+		return
+	}
+
+	ctx.JSON(http.StatusOK, s.svc.Response(ctx, "Updated user successfully", nil))
 }
 
 func (s *Server) logoutUser(ctx *gin.Context) {

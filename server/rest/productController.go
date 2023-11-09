@@ -81,3 +81,30 @@ func (s *Server) deleteProduct(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusOK, s.svc.Response(ctx, "Product user successfully", nil))
 }
+
+func (s *Server) getAllProducts(ctx *gin.Context) {
+	productResult, err := s.svc.GetProducts(ctx)
+	if err != nil {
+		logger.Error(ctx, "cannot get all products", err)
+		ctx.JSON(http.StatusInternalServerError, s.svc.Error(ctx, util.EN_INTERNAL_SERVER_ERROR, "Internal Server Error"))
+		return
+	}
+
+	var products []*productResponse
+	for _, pro := range productResult.Products {
+		proRes := &productResponse{
+			ID: pro.ID,
+			Name: pro.Name,
+			Description: pro.Description,
+			Price: pro.Price,
+			Quantity: pro.Quantity,
+		}
+		products = append(products, proRes)
+	}
+
+	allProducts := &getProductRes{
+		Products: products,
+	}
+
+	ctx.JSON(http.StatusOK, s.svc.Response(ctx, "Successfully fetched all products", allProducts))
+}

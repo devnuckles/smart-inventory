@@ -111,3 +111,27 @@ func (r *productRepo) DeleteProductById(ctx context.Context, id string) error {
 
 	return nil
 }
+
+func (r *productRepo) GetAllProducts(ctx context.Context) (*service.ProductsResult, error) {
+
+	input := &dynamodb.ScanInput{
+		TableName: aws.String(r.tableName),
+	}
+
+	result, err := r.svc.ScanWithContext(ctx, input) // Assuming you have the DynamoDB service client in r.svc
+	if err != nil {
+		return nil, fmt.Errorf("error scanning table: %v", err)
+	}
+
+	var products []*service.Product
+	err = dynamodbattribute.UnmarshalListOfMaps(result.Items, &products)
+	if err != nil {
+		return nil, fmt.Errorf("cannot unmarshal DynamoDB result: %v", err)
+	}
+
+	productResult := &service.ProductsResult{
+		Products: products,
+	}
+
+	return productResult, nil
+}

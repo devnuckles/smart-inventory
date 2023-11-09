@@ -6,4 +6,9 @@ type Product struct {
 	Description string  `json:"Description"`
 	Price       float64 `json:"Price"`
 	Quantity    int64   `json:"Quantity"`
+	CreatedAt   int64   `json:"CreatedAt"`
+}
+
+type ProductsResult struct {
+	Products []*Product `json:"Products"`
 }

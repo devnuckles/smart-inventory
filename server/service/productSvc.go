@@ -27,3 +27,11 @@ func (s *service) DeleteProduct(ctx context.Context, id string) error {
 	}
 	return nil
 }
+
+func (s *service) GetProducts(ctx context.Context) (*ProductsResult, error) {
+	res, err := s.productRepo.GetAllProducts(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return res, nil
+}

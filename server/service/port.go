@@ -17,6 +17,7 @@ type Service interface {
 	CreateProduct(ctx context.Context, product *Product) (*Product, error)
 	UpdateProduct(ctx context.Context, updatedProduct *Product) error
 	DeleteProduct(ctx context.Context, id string) error
+	GetProducts(ctx context.Context) (*ProductsResult, error)
 
 	Error(ctx context.Context, internalCode string, description string) *ErrorResponse
 	Response(ctx context.Context, description string, data interface{}) *ResponseData
@@ -35,6 +36,7 @@ type ProductRepo interface {
 	CreateProduct(ctx context.Context, product *Product) (*Product, error)
 	UpdateProduct(ctx context.Context, product *Product) error
 	DeleteProductById(ctx context.Context, id string) error
+	GetAllProducts(ctx context.Context) (*ProductsResult, error)
 }
 
 type ErrorRepo interface {

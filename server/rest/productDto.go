@@ -21,3 +21,16 @@ type UpdateProductReq struct {
 	Price       float64 `json:"price" binding:"required"`
 	Quantity    int64   `json:"quantity" binding:"required"`
 }
+
+type productResponse struct {
+	ID          string  `json:"id"`
+	Name        string  `json:"name"`
+	Description string  `json:"description"`
+	Price       float64 `json:"price"`
+	Quantity    int64   `json:"quantity"`
+	CreatedAt   int64   `json:"created_at"`
+}
+
+type getProductRes struct {
+	Products []*productResponse
+}
