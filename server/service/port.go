@@ -23,7 +23,6 @@ type Service interface {
 	CreateOrder(ctx context.Context, order *Order) error
 	DeleteOrder(ctx context.Context, id string) error
 
-
 	///Others
 	Error(ctx context.Context, internalCode string, description string) *ErrorResponse
 	Response(ctx context.Context, description string, data interface{}) *ResponseData
@@ -48,6 +47,7 @@ type ProductRepo interface {
 type OrderRepo interface {
 	CreateOrder(ctx context.Context, order *Order) error
 	CancelOrderByID(ctx context.Context, id string) error
+	GetOrder(ctx context.Context, id string) (*Order, error)
 }
 
 type ErrorRepo interface {

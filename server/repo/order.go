@@ -70,3 +70,34 @@ func (r *orderRepo) CancelOrderByID(ctx context.Context, id string) error {
 
 	return nil
 }
+
+func (r *orderRepo) GetOrder(ctx context.Context, id string) (*service.Order, error) {
+	input := &dynamodb.GetItemInput{
+		TableName: aws.String(r.tableName),
+		Key: map[string]*dynamodb.AttributeValue{
+			"OrderId": {
+				S: aws.String(id),
+			},
+		},
+	}
+
+	result, err := r.svc.GetItemWithContext(ctx, input)
+	if err != nil {
+		if aerr, ok := err.(awserr.Error); ok {
+			return nil, fmt.Errorf("failed to get item: %v - %v", aerr.Code(), aerr.Message())
+		}
+		return nil, fmt.Errorf("failed to get item: %v", err)
+	}
+
+	if result.Item == nil {
+		return nil, nil
+	}
+
+	var order *service.Order
+	err = dynamodbattribute.UnmarshalMap(result.Item, &order)
+	if err != nil {
+		return nil, fmt.Errorf("failed to unmarshal DynamoDB item: %v", err)
+	}
+
+	return order, nil
+}
