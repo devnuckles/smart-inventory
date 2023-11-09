@@ -19,6 +19,11 @@ type Service interface {
 	DeleteProduct(ctx context.Context, id string) error
 	GetProducts(ctx context.Context) (*ProductsResult, error)
 
+	////Order Services
+	CreateOrder(ctx context.Context, order *Order) error
+
+
+	///Others
 	Error(ctx context.Context, internalCode string, description string) *ErrorResponse
 	Response(ctx context.Context, description string, data interface{}) *ResponseData
 	IsPermitted(ctx context.Context, role, action, object string) bool
@@ -37,6 +42,10 @@ type ProductRepo interface {
 	UpdateProduct(ctx context.Context, product *Product) error
 	DeleteProductById(ctx context.Context, id string) error
 	GetAllProducts(ctx context.Context) (*ProductsResult, error)
+}
+
+type OrderRepo interface {
+	CreateOrder(ctx context.Context, order *Order) error
 }
 
 type ErrorRepo interface {
