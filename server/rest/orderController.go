@@ -59,24 +59,65 @@ func (s *Server) cancelOrder(ctx *gin.Context) {
 
 func (s *Server) getOrder(ctx *gin.Context) {
 	id := ctx.Param("id")
-	user, err := s.svc.GetUserByID(ctx, id)
+	order, err := s.svc.GetOrderByID(ctx, id)
 	if err != nil {
-		logger.Error(ctx, "cannot get user", err)
+		logger.Error(ctx, "cannot get order", err)
 		ctx.JSON(http.StatusNotFound, s.svc.Error(ctx, util.EN_NOT_FOUND, "Not Found"))
 		return
 	}
 
-	if user == nil {
-		logger.Error(ctx, "user not found", err)
+	if order == nil {
+		logger.Error(ctx, "order not found", err)
 		ctx.JSON(http.StatusNotFound, s.svc.Error(ctx, util.EN_API_PARAMETER_INVALID_ERROR, "Not Found"))
 		return
 	}
 
-	userRes := userResponse{
-		ID:       user.ID,
-		Username: user.Username,
-		Email:    user.Email,
+	getOrder := orderRes{
+		ProductId:   order.ProductID,
+		CustomerId:  order.CustomerID,
+		Quantity:    int64(order.Quantity),
+		TotalAmount: order.TotalAmount,
 	}
 
-	ctx.JSON(http.StatusOK, s.svc.Response(ctx, "Fetched user successfully", userRes))
+	ctx.JSON(http.StatusOK, s.svc.Response(ctx, "Fetched order successfully", getOrder))
+}
+
+func (s *Server) updateOrder(ctx *gin.Context) {
+	orderID := ctx.Param("id")
+	existingOrder, err := s.svc.GetOrderByID(ctx, orderID)
+	if err != nil {
+		logger.Error(ctx, "cannot get the order", err)
+		ctx.JSON(http.StatusInternalServerError, s.svc.Error(ctx, util.EN_INTERNAL_SERVER_ERROR, "Internal Server Error"))
+		return
+	}
+
+	if existingOrder ==  nil {
+		logger.Error(ctx, "order not found", err)
+		ctx.JSON(http.StatusNotFound, s.svc.Error(ctx, util.EN_NOT_FOUND, "Not Found"))
+		return
+	}
+
+	var req updateOrderReq
+	err = ctx.ShouldBindJSON(&req)
+	if err != nil {
+		logger.Error(ctx, "cannot pass validation", err)
+		ctx.JSON(http.StatusBadRequest, s.svc.Error(ctx, util.EN_API_PARAMETER_INVALID_ERROR, "Bad request"))
+		return
+	}
+
+	order := &service.Order{
+		ProductID:   req.ProductId,
+		CustomerID:  req.CustomerId,
+		Quantity:    int(req.Quantity),
+		TotalAmount: req.TotalAmount,
+	}
+
+	err = s.svc.UpdateOrder(ctx, order)
+	if err != nil {
+		logger.Error(ctx, "could not update order", err)
+		ctx.JSON(http.StatusInternalServerError, s.svc.Error(ctx, util.EN_INTERNAL_SERVER_ERROR, "Internal Server Error"))
+		return
+	}
+
+	ctx.JSON(http.StatusOK, s.svc.Response(ctx, "Order Updated Successfully", order))
 }

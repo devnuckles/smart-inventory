@@ -101,3 +101,46 @@ func (r *orderRepo) GetOrder(ctx context.Context, id string) (*service.Order, er
 
 	return order, nil
 }
+
+func (r *orderRepo) UpdateOrder(ctx context.Context, order *service.Order) error {
+	// Marshal the product into a DynamoDB attribute map
+	input := &dynamodb.UpdateItemInput{
+		TableName: aws.String(r.tableName),
+		Key: map[string]*dynamodb.AttributeValue{
+			"OrderId": {
+				S: aws.String(order.OrderID),
+			},
+		},
+		ExpressionAttributeValues: map[string]*dynamodb.AttributeValue{
+			":c": {
+				S: aws.String(order.CustomerID),
+			},
+			":p": {
+				S: aws.String(order.ProductID),
+			},
+			":q": {
+				N: aws.String(fmt.Sprintf("%d", order.Quantity)),
+			},
+			":t": {
+				N: aws.String(fmt.Sprintf("%f", order.TotalAmount)),
+			},
+		},
+		UpdateExpression: aws.String("SET #c = :c, #p = :p, #q = :q, #t = :t"),
+		ExpressionAttributeNames: map[string]*string{
+			"#c": aws.String("CustomerId"),
+			"#p": aws.String("ProductId"),
+			"#q": aws.String("Quantity"),
+			"#t": aws.String("TotalAmount"),
+		},
+	}
+
+	_, err := r.svc.UpdateItemWithContext(ctx, input)
+	if err != nil {
+		if aerr, ok := err.(awserr.Error); ok {
+			return fmt.Errorf("failed to update item: %v - %v", aerr.Code(), aerr.Message())
+		}
+		return fmt.Errorf("failed to update item: %v", err)
+	}
+
+	return nil
+}

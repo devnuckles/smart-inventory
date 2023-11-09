@@ -22,6 +22,8 @@ type Service interface {
 	////Order Services
 	CreateOrder(ctx context.Context, order *Order) error
 	DeleteOrder(ctx context.Context, id string) error
+	GetOrderByID(ctx context.Context, id string) (*Order, error)
+	UpdateOrder(ctx context.Context, order *Order) error
 
 	///Others
 	Error(ctx context.Context, internalCode string, description string) *ErrorResponse
@@ -48,6 +50,7 @@ type OrderRepo interface {
 	CreateOrder(ctx context.Context, order *Order) error
 	CancelOrderByID(ctx context.Context, id string) error
 	GetOrder(ctx context.Context, id string) (*Order, error)
+	UpdateOrder(ctx context.Context, order *Order) error
 }
 
 type ErrorRepo interface {

@@ -17,3 +17,19 @@ func (s *service) DeleteOrder(ctx context.Context, id string) error {
 	}
 	return nil
 }
+
+func (s *service) GetOrderByID(ctx context.Context, id string) (*Order, error) {
+	order, err := s.orderRepo.GetOrder(ctx, id)
+	if err != nil {
+		return nil, err
+	}
+	return order, nil
+}
+
+func (s *service) UpdateOrder(ctx context.Context, order *Order) error {
+	err := s.orderRepo.UpdateOrder(ctx, order)
+	if err != nil {
+		return err
+	}
+	return nil
+}
