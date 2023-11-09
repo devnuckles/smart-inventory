@@ -41,5 +41,19 @@ func (s *Server) createOrder(ctx *gin.Context) {
 		return
 	}
 
-
+	ctx.JSON(http.StatusOK, s.svc.Response(ctx, "Order Created Successfully", nil))
 }
+
+func (s *Server) cancelOrder(ctx *gin.Context) {
+	orderID := ctx.Param("id")
+
+	err := s.svc.DeleteOrder(ctx, orderID)
+	if err != nil {
+		logger.Error(ctx, "could not delete order", err)
+		ctx.JSON(http.StatusInternalServerError, s.svc.Error(ctx, util.EN_INTERNAL_SERVER_ERROR, "Internal Server Error"))
+		return
+	}
+
+	ctx.JSON(http.StatusOK, s.svc.Response(ctx, "Order Deleted Successfully", nil))
+}
+

@@ -21,6 +21,7 @@ type Service interface {
 
 	////Order Services
 	CreateOrder(ctx context.Context, order *Order) error
+	DeleteOrder(ctx context.Context, id string) error
 
 
 	///Others
@@ -46,6 +47,7 @@ type ProductRepo interface {
 
 type OrderRepo interface {
 	CreateOrder(ctx context.Context, order *Order) error
+	CancelOrderByID(ctx context.Context, id string) error
 }
 
 type ErrorRepo interface {
