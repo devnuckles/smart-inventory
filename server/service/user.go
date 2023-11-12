@@ -8,8 +8,8 @@ type User struct {
 	Password    string `json:"Password"`
 	PhoneNumber string `json:"PhoneNumber"`
 	Image       string `json:"Picture"`
-	Role        string `json:"custom:role"`
-	Status      string `json:"custom:status"`
+	Role        string `json:"Role"`
+	Status      string `json:"Status"`
 	CreatedAt   int64  `json:"CreatedAt"`
-	CreatedBy   string `json:"custom:createdBy"`
+	CreatedBy   string `json:"CreatedBy"`
 }

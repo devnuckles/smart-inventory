@@ -108,7 +108,7 @@ func (r *orderRepo) UpdateOrder(ctx context.Context, order *service.Order) error
 		TableName: aws.String(r.tableName),
 		Key: map[string]*dynamodb.AttributeValue{
 			"OrderId": {
-				S: aws.String(order.OrderID),
+				S: aws.String(order.ID),
 			},
 		},
 		ExpressionAttributeValues: map[string]*dynamodb.AttributeValue{

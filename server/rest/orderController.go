@@ -27,7 +27,7 @@ func (s *Server) createOrder(ctx *gin.Context) {
 	}
 
 	order := &service.Order{
-		OrderID:     orderId.String(),
+		ID:     orderId.String(),
 		ProductID:   req.ProductId,
 		CustomerID:  req.CustomerId,
 		Quantity:    int(req.Quantity),
@@ -133,7 +133,7 @@ func (s *Server) getAllOrders(ctx *gin.Context){
 	var orderRes []*orderResponse
 	for _, order := range orders.Orders {
 		res := &orderResponse{
-			OrderId: order.OrderID,
+			OrderId: order.ID,
 			ProductID: order.ProductID,
 			CustomerID: order.CustomerID,
 			Quantity: int64(order.Quantity),

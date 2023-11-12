@@ -27,9 +27,8 @@ func (s *Server) createProduct(ctx *gin.Context) {
 	product := &service.Product{
 		ID:          productID.String(),
 		Name:        req.Name,
-		Description: req.Description,
-		Price:       req.Price,
 		Quantity:    req.Quantity,
+		BuyingPrice: req.Price,
 	}
 
 	pro, err := s.svc.CreateProduct(ctx, product)
@@ -55,9 +54,9 @@ func (s *Server) updateProduct(ctx *gin.Context) {
 	updatedProduct := &service.Product{
 		ID:          id,
 		Name:        req.Name,
-		Description: req.Description,
-		Price:       req.Price,
+		BuyingPrice: req.BuyingPrice,
 		Quantity:    req.Quantity,
+		ExpiryDate:  req.ExpiryDate,
 	}
 
 	err = s.svc.UpdateProduct(ctx, updatedProduct)
@@ -93,11 +92,12 @@ func (s *Server) getAllProducts(ctx *gin.Context) {
 	var products []*productResponse
 	for _, pro := range productResult.Products {
 		proRes := &productResponse{
-			ID: pro.ID,
-			Name: pro.Name,
-			Description: pro.Description,
-			Price: pro.Price,
-			Quantity: pro.Quantity,
+			ID:          pro.ID,
+			Name:        pro.Name,
+			BuyingPrice: pro.BuyingPrice,
+			Quantity:    pro.Quantity,
+			ExpiryDate:  pro.ExpiryDate,
+			CreatedAt:   pro.CreatedAt,
 		}
 		products = append(products, proRes)
 	}

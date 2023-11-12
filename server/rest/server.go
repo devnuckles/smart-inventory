@@ -5,7 +5,6 @@ import (
 	"net/http"
 
 	"github.com/Tonmoy404/Smart-Inventory/config"
-	"github.com/Tonmoy404/Smart-Inventory/logger"
 	"github.com/Tonmoy404/Smart-Inventory/service"
 	"github.com/gin-gonic/gin"
 )
@@ -35,36 +34,31 @@ func (server *Server) setupRouter() {
 	// CORS middleware
 	router.Use(corsMiddleware)
 
-	// log middleware
-	router.Use(logger.ModifyContext)
-
 	router.GET("/api/test", server.test)
 	router.POST("/api/users/signup", server.signupUser)
 	router.POST("/api/users/login", server.loginUser)
 
-	authRoutes := router.Group("/").Use(server.authMiddleware())
-
-	authRoutes.POST("/api/users/add", server.addUser)
-	authRoutes.DELETE("/api/users/:id", server.deleteUser)
-	authRoutes.GET("/api/users/:id", server.getUser)
-	authRoutes.PATCH("/api/users/update", server.updateUser)
-	authRoutes.POST("/api/users/logout", server.logoutUser)
-	authRoutes.GET("/api/users/profile", server.getUserProfile)
-	authRoutes.PATCH("/api/users/password", server.changePassword)
+	router.POST("/api/users/add", server.addUser)
+	router.DELETE("/api/users/:id", server.deleteUser)
+	router.GET("/api/users/:id", server.getUser)
+	router.PATCH("/api/users/update", server.updateUser)
+	router.POST("/api/users/logout", server.logoutUser)
+	router.GET("/api/users/profile", server.getUserProfile)
+	router.PATCH("/api/users/password", server.changePassword)
 
 	///product routes
 
-	authRoutes.POST("/api/item/create", server.createProduct)
-	authRoutes.DELETE("/api/item/:id", server.deleteProduct)
-	authRoutes.PATCH("/api/item/:id", server.updateProduct)
-	authRoutes.GET("/api/items/all", server.getAllProducts)
+	router.POST("/api/item/create", server.createProduct)
+	router.DELETE("/api/item/:id", server.deleteProduct)
+	router.PATCH("/api/item/:id", server.updateProduct)
+	router.GET("/api/items/all", server.getAllProducts)
 
 	///order routes
-	authRoutes.POST("/api/order/create", server.createOrder)
-	authRoutes.DELETE("/api/order/:id", server.cancelOrder)
-	authRoutes.GET("/api/order/:id", server.getOrder)
-	authRoutes.PATCH("/api/order/:id", server.updateOrder)
-	authRoutes.GET("/api/order/all", server.getAllOrders)
+	router.POST("/api/order/create", server.createOrder)
+	router.DELETE("/api/order/:id", server.cancelOrder)
+	router.GET("/api/order/:id", server.getOrder)
+	router.PATCH("/api/order/:id", server.updateOrder)
+	router.GET("/api/order/all", server.getAllOrders)
 
 	server.router = router
 }

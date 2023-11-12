@@ -61,14 +61,14 @@ func (r *productRepo) UpdateProduct(ctx context.Context, product *service.Produc
 			":n": {
 				S: aws.String(product.Name),
 			},
-			":d": {
-				S: aws.String(product.Description),
-			},
-			":p": {
-				N: aws.String(fmt.Sprintf("%f", product.Price)),
+			":bp": {
+				N: aws.String(fmt.Sprintf("%f", product.BuyingPrice)),
 			},
 			":q": {
 				N: aws.String(fmt.Sprintf("%d", product.Quantity)),
+			},
+			"ed": {
+				N: aws.String(fmt.Sprintf("%d", product.ExpiryDate)),
 			},
 		},
 		UpdateExpression: aws.String("SET #n = :n, #d = :d, #p = :p, #q = :q"),

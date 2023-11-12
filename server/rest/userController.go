@@ -16,7 +16,7 @@ import (
 func (s *Server) signupUser(ctx *gin.Context) {
 	// validating req obj
 	var req signupUserReq
-	err := ctx.ShouldBindJSON(&req)
+	err := ctx.ShouldBind(&req)
 	if err != nil {
 		logger.Error(ctx, "cannot pass validation", err)
 		ctx.JSON(http.StatusBadRequest, s.svc.Error(ctx, util.EN_API_PARAMETER_INVALID_ERROR, "Bad request"))
@@ -24,18 +24,18 @@ func (s *Server) signupUser(ctx *gin.Context) {
 	}
 
 	// check existing user by email
-	user, err := s.svc.GetUserByEmail(ctx, req.Email)
-	if err != nil {
-		logger.Error(ctx, "cannot get user", err)
-		ctx.JSON(http.StatusInternalServerError, s.svc.Error(ctx, util.EN_INTERNAL_SERVER_ERROR, "Internal server error"))
-		return
-	}
+	// user, err := s.svc.GetUserByEmail(ctx, req.Email)
+	// if err != nil {
+	// 	logger.Error(ctx, "cannot get user", err)
+	// 	ctx.JSON(http.StatusInternalServerError, s.svc.Error(ctx, util.EN_INTERNAL_SERVER_ERROR, "Internal server error"))
+	// 	return
+	// }
 
-	if user != nil {
-		logger.Error(ctx, "already registered user with the email", nil)
-		ctx.JSON(http.StatusBadRequest, s.svc.Error(ctx, util.EN_ALREADY_REGISTERED_ERROR, "Already registered"))
-		return
-	}
+	// if user != nil {
+	// 	logger.Error(ctx, "already registered user with the email", nil)
+	// 	ctx.JSON(http.StatusBadRequest, s.svc.Error(ctx, util.EN_ALREADY_REGISTERED_ERROR, "Already registered"))
+	// 	return
+	// }
 
 	// hash the password
 	hashedPass, err := bcrypt.GenerateFromPassword([]byte(req.Password), s.salt.SecretKey)
@@ -54,7 +54,7 @@ func (s *Server) signupUser(ctx *gin.Context) {
 	}
 
 	// create the user into db
-	user = &service.User{
+	user := &service.User{
 		ID:          userID.String(),
 		Username:    "Not Set",
 		Fullname:    "Not Set",

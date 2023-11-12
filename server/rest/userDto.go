@@ -1,9 +1,9 @@
 package rest
 
 type signupUserReq struct {
-	Email           string `json:"email" binding:"required,email,max=100"`
-	Password        string `json:"password" binding:"required,min=8,max=100"`
-	ConfirmPassword string `json:"confirm_password" binding:"required,eqfield=Password"`
+	Email           string `form:"email" binding:"required,email,max=100"`
+	Password        string `form:"password" binding:"required,min=8,max=100"`
+	ConfirmPassword string `form:"confirm_password" binding:"required,eqfield=Password"`
 }
 
 // type updateUserReq struct {
