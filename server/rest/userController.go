@@ -141,7 +141,7 @@ func (s *Server) addUser(ctx *gin.Context) {
 
 func (s *Server) loginUser(ctx *gin.Context) {
 	var req loginUserReq
-	err := ctx.ShouldBindJSON(&req)
+	err := ctx.ShouldBind(&req)
 	if err != nil {
 		logger.Error(ctx, "cannot pass validation", err)
 		ctx.JSON(http.StatusBadRequest, s.svc.Error(ctx, util.EN_API_PARAMETER_INVALID_ERROR, "Bad request"))
@@ -229,7 +229,7 @@ func (s *Server) updateUser(ctx *gin.Context) {
 	}
 
 	var req updateUserReq
-	err = ctx.ShouldBindJSON(&req)
+	err = ctx.ShouldBind(&req)
 	if err != nil {
 		logger.Error(ctx, "cannot pass validation", err)
 		ctx.JSON(http.StatusInternalServerError, s.svc.Error(ctx, util.EN_INTERNAL_SERVER_ERROR, "Internal server error"))

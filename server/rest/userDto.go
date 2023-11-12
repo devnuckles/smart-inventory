@@ -27,8 +27,8 @@ type addUserReq struct {
 }
 
 type loginUserReq struct {
-	Email    string `json:"email" binding:"required,email"`
-	Password string `json:"password" binding:"required"`
+	Email    string `form:"email" binding:"required,email"`
+	Password string `form:"password" binding:"required"`
 }
 
 type loginUserRes struct {
@@ -48,8 +48,8 @@ type userResponse struct {
 }
 
 type updateUserReq struct {
-	Email       string `json:"email" binding:"required,email"`
-	Username    string `json:"username"`
-	Fullname    string `json:"fullname"`
-	PhoneNumber string `json:"phone_number"`
+	Email       string `form:"email" binding:"required,email"`
+	Username    string `form:"username" binding:"required"`
+	Fullname    string `form:"fullname" binding:"required"`
+	PhoneNumber string `form:"phone_number" binding:"required"`
 }

@@ -12,6 +12,14 @@ func (s *service) CreateProduct(ctx context.Context, product *Product) (*Product
 	return product, err
 }
 
+func (s *service) GetProductById(ctx context.Context, id string) (*Product, error) {
+	product, err := s.productRepo.GetProduct(ctx, id)
+	if err != nil {
+		return nil, err
+	}
+	return product, nil
+}
+
 func (s *service) UpdateProduct(ctx context.Context, updatedProduct *Product) error {
 	err := s.productRepo.UpdateProduct(ctx, updatedProduct)
 	if err != nil {

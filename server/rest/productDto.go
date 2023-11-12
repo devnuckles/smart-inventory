@@ -38,3 +38,11 @@ type productResponse struct {
 type getProductRes struct {
 	Products []*productResponse
 }
+
+type productRes struct {
+	Name        string  `json:"name"`
+	Category    string  `json:"category"`
+	BuyingPrice float64 `json:"buying_price"`
+	Quantity    int64   `json:"quantity"`
+	ExpiryDate  int64   `json:"expiry_date"`
+}

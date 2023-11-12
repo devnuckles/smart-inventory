@@ -185,22 +185,14 @@ func (r *userRepo) UpdateItemByID(ctx context.Context, user *service.User) error
 			":u": {
 				S: aws.String(user.Username),
 			},
-			":r": {
-				S: aws.String(user.Role),
-			},
-			":sts": {
-				S: aws.String(user.Status),
-			},
 		},
-		UpdateExpression: aws.String("SET #e = :e, #p = :p, #f = :f, #n = :n, #u = :u, #r = :r, #sts = :sts, #pc = :pc"),
+		UpdateExpression: aws.String("SET #e = :e, #p = :p, #f = :f, #n = :n, #u = :u"),
 		ExpressionAttributeNames: map[string]*string{
-			"#e":   aws.String("Email"),
-			"#p":   aws.String("Password"),
-			"#f":   aws.String("Fullname"),
-			"#n":   aws.String("PhoneNumber"),
-			"#u":   aws.String("Username"),
-			"#r":   aws.String("Role"),
-			"#sts": aws.String("Status"),
+			"#e": aws.String("Email"),
+			"#p": aws.String("Password"),
+			"#f": aws.String("Fullname"),
+			"#n": aws.String("PhoneNumber"),
+			"#u": aws.String("Username"),
 		},
 	}
 

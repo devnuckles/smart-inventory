@@ -16,6 +16,7 @@ type Service interface {
 
 	/////Product Services
 	CreateProduct(ctx context.Context, product *Product) (*Product, error)
+	GetProductById(ctx context.Context, id string) (*Product, error)
 	UpdateProduct(ctx context.Context, updatedProduct *Product) error
 	DeleteProduct(ctx context.Context, id string) error
 	GetProducts(ctx context.Context) (*ProductsResult, error)
@@ -49,6 +50,7 @@ type ProductRepo interface {
 	UpdateProduct(ctx context.Context, product *Product) error
 	DeleteProductById(ctx context.Context, id string) error
 	GetAllProducts(ctx context.Context) (*ProductsResult, error)
+	GetProduct(ctx context.Context, id string) (*Product, error)
 }
 
 type OrderRepo interface {

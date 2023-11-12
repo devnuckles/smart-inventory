@@ -69,22 +69,28 @@ func (s *Server) updateProduct(ctx *gin.Context) {
 	id := ctx.Param("id")
 
 	var req UpdateProductReq
-	err := ctx.ShouldBindJSON(&req)
+	err := ctx.ShouldBind(&req)
 	if err != nil {
 		logger.Error(ctx, "cannot pass validation", err)
 		ctx.JSON(http.StatusBadRequest, s.svc.Error(ctx, util.EN_API_PARAMETER_INVALID_ERROR, "Bad Request"))
 		return
 	}
 
-	updatedProduct := &service.Product{
-		ID:          id,
-		Name:        req.Name,
-		BuyingPrice: req.BuyingPrice,
-		Quantity:    req.Quantity,
-		ExpiryDate:  req.ExpiryDate,
+	product, err := s.svc.GetProductById(ctx, id)
+	if err != nil {
+		logger.Error(ctx, "cannot get product", err)
+		ctx.JSON(http.StatusInternalServerError, s.svc.Error(ctx, util.EN_INTERNAL_SERVER_ERROR, "Internal Server Error"))
+		return
 	}
 
-	err = s.svc.UpdateProduct(ctx, updatedProduct)
+	product.Name = req.Name
+	product.BuyingPrice = req.BuyingPrice
+	product.Quantity = req.Quantity
+	product.ExpiryDate = req.ExpiryDate
+	product.ThreSholdValue = req.ThreSholdValue
+	product.Category = req.Category
+
+	err = s.svc.UpdateProduct(ctx, product)
 	if err != nil {
 		logger.Error(ctx, "cannot update product", err)
 		ctx.JSON(http.StatusInternalServerError, s.svc.Error(ctx, util.EN_INTERNAL_SERVER_ERROR, "Internal Server Error"))
@@ -132,4 +138,30 @@ func (s *Server) getAllProducts(ctx *gin.Context) {
 	}
 
 	ctx.JSON(http.StatusOK, s.svc.Response(ctx, "Successfully fetched all products", allProducts))
+}
+
+func (s *Server) getProduct(ctx *gin.Context) {
+	id := ctx.Param("id")
+	product, err := s.svc.GetProductById(ctx, id)
+	if err != nil {
+		logger.Error(ctx, "cannot get product", err)
+		ctx.JSON(http.StatusNotFound, s.svc.Error(ctx, util.EN_NOT_FOUND, "Not Found"))
+		return
+	}
+
+	if product == nil {
+		logger.Error(ctx, "user not found", err)
+		ctx.JSON(http.StatusNotFound, s.svc.Error(ctx, util.EN_API_PARAMETER_INVALID_ERROR, "Not Found"))
+		return
+	}
+
+	getProduct := productRes{
+		Name:        product.Name,
+		Category:    product.Category,
+		BuyingPrice: product.BuyingPrice,
+		Quantity:    product.Quantity,
+		ExpiryDate:  product.ExpiryDate,
+	}
+
+	ctx.JSON(http.StatusOK, s.svc.Response(ctx, "Fetched user successfully", getProduct))
 }

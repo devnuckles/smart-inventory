@@ -52,6 +52,37 @@ func (r *productRepo) CreateProduct(ctx context.Context, product *service.Produc
 	return product, nil
 }
 
+func (r *productRepo) GetProduct(ctx context.Context, id string) (*service.Product, error) {
+	input := &dynamodb.GetItemInput{
+		TableName: aws.String(r.tableName),
+		Key: map[string]*dynamodb.AttributeValue{
+			"Id": {
+				S: aws.String(id),
+			},
+		},
+	}
+
+	result, err := r.svc.GetItemWithContext(ctx, input)
+	if err != nil {
+		if aerr, ok := err.(awserr.Error); ok {
+			return nil, fmt.Errorf("failed to get item: %v - %v", aerr.Code(), aerr.Message())
+		}
+		return nil, fmt.Errorf("failed to get item: %v", err)
+	}
+
+	if result.Item == nil {
+		return nil, nil
+	}
+
+	var category *service.Product
+	err = dynamodbattribute.UnmarshalMap(result.Item, &category)
+	if err != nil {
+		return nil, fmt.Errorf("failed to unmarshal DynamoDB item: %v", err)
+	}
+
+	return category, nil
+}
+
 func (r *productRepo) UpdateProduct(ctx context.Context, product *service.Product) error {
 	// Marshal the product into a DynamoDB attribute map
 	input := &dynamodb.UpdateItemInput{
@@ -65,22 +96,30 @@ func (r *productRepo) UpdateProduct(ctx context.Context, product *service.Produc
 			":n": {
 				S: aws.String(product.Name),
 			},
+			":c": {
+				S: aws.String(product.Category),
+			},
 			":bp": {
 				N: aws.String(fmt.Sprintf("%f", product.BuyingPrice)),
 			},
 			":q": {
 				N: aws.String(fmt.Sprintf("%d", product.Quantity)),
 			},
-			"ed": {
+			":th": {
+				N: aws.String(fmt.Sprintf("%d", product.ThreSholdValue)),
+			},
+			":ex": {
 				N: aws.String(fmt.Sprintf("%d", product.ExpiryDate)),
 			},
 		},
-		UpdateExpression: aws.String("SET #n = :n, #d = :d, #p = :p, #q = :q"),
+		UpdateExpression: aws.String("SET #n = :n, #c = :c, #bp = :bp, #q = :q, #th = :th, #ex = :ex"),
 		ExpressionAttributeNames: map[string]*string{
-			"#n": aws.String("Name"),
-			"#d": aws.String("Description"),
-			"#p": aws.String("Price"),
-			"#q": aws.String("Quantity"),
+			"#n":  aws.String("Name"),
+			"#c":  aws.String("Category"),
+			"#bp": aws.String("BuyingPrice"),
+			"#q":  aws.String("Quantity"),
+			"#th": aws.String("ThresholdValue"),
+			"#ex": aws.String("ExpiryDate"),
 		},
 	}
 
