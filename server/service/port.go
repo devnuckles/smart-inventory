@@ -24,7 +24,7 @@ type Service interface {
 	DeleteOrder(ctx context.Context, id string) error
 	GetOrderByID(ctx context.Context, id string) (*Order, error)
 	UpdateOrder(ctx context.Context, order *Order) error
-	GetAllOrders(ctx context.Context) ([]*OrdersResult, error)
+	GetAllOrders(ctx context.Context) (*OrdersResult, error)
 
 	///Others
 	Error(ctx context.Context, internalCode string, description string) *ErrorResponse
@@ -52,7 +52,7 @@ type OrderRepo interface {
 	CancelOrderByID(ctx context.Context, id string) error
 	GetOrder(ctx context.Context, id string) (*Order, error)
 	UpdateOrder(ctx context.Context, order *Order) error
-	GetAllItems(ctx context.Context) ([]*OrdersResult, error)
+	GetAllItems(ctx context.Context) (*OrdersResult, error)
 }
 
 type ErrorRepo interface {

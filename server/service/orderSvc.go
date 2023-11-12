@@ -34,7 +34,7 @@ func (s *service) UpdateOrder(ctx context.Context, order *Order) error {
 	return nil
 }
 
-func (s *service) GetAllOrders(ctx context.Context) ([]*OrdersResult, error) {
+func (s *service) GetAllOrders(ctx context.Context) (*OrdersResult, error) {
 	orders, err := s.orderRepo.GetAllItems(ctx)
 	if err != nil {
 		return nil, err

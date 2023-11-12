@@ -28,3 +28,7 @@ type orderResponse struct {
 	Quantity    int64   `json:"quantity"`
 	TotalAmount float64 `json:"total_amount"`
 }
+
+type getAllOrderRes struct{
+	Orders []*orderResponse `json:"orders"`
+}

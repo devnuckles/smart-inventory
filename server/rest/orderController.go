@@ -131,6 +131,20 @@ func (s *Server) getAllOrders(ctx *gin.Context){
 	}
 
 	var orderRes []*orderResponse
-	for _, or := range orders
+	for _, order := range orders.Orders {
+		res := &orderResponse{
+			OrderId: order.OrderID,
+			ProductID: order.ProductID,
+			CustomerID: order.CustomerID,
+			Quantity: int64(order.Quantity),
+			TotalAmount: order.TotalAmount,
+		}
+		orderRes = append(orderRes, res)
+	}
 
+	allOrders := &getAllOrderRes{
+		Orders: orderRes,
+	}
+
+	ctx.JSON(http.StatusOK, s.svc.Response(ctx, "Successfully get all orders", allOrders))
 }

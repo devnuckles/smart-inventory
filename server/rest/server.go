@@ -63,6 +63,8 @@ func (server *Server) setupRouter() {
 	authRoutes.POST("/api/order/create", server.createOrder)
 	authRoutes.DELETE("/api/order/:id", server.cancelOrder)
 	authRoutes.GET("/api/order/:id", server.getOrder)
+	authRoutes.PATCH("/api/order/:id", server.updateOrder)
+	authRoutes.GET("/api/order/all", server.getAllOrders)
 
 	server.router = router
 }

@@ -144,3 +144,27 @@ func (r *orderRepo) UpdateOrder(ctx context.Context, order *service.Order) error
 
 	return nil
 }
+
+func (r *orderRepo) GetAllItems(ctx context.Context) (*service.OrdersResult, error) {
+
+	input := &dynamodb.ScanInput{
+		TableName: aws.String(r.tableName),
+	}
+
+	result, err := r.svc.ScanWithContext(ctx, input)
+	if err != nil {
+		return nil, fmt.Errorf("error scanning table: %v", err)
+	}
+
+	var orders []*service.Order
+	err = dynamodbattribute.UnmarshalListOfMaps(result.Items, &orders)
+	if err != nil {
+		return nil, fmt.Errorf("cannot unmarshal DynamoDB result: %v", err)
+	}
+
+	orderResult := &service.OrdersResult{
+		Orders: orders,
+	}
+
+	return orderResult, nil
+}
