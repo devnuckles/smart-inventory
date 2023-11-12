@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/Tonmoy404/Smart-Inventory/logger"
 	"github.com/Tonmoy404/Smart-Inventory/service"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/awserr"
@@ -37,7 +38,10 @@ func (r *productRepo) CreateProduct(ctx context.Context, product *service.Produc
 		TableName: aws.String(r.tableName),
 		Item:      prod,
 	}
+
+	logger.Info(ctx, "the req of prod", input)
 	_, err = r.svc.PutItemWithContext(ctx, input)
+
 	if err != nil {
 		if aerr, ok := err.(awserr.Error); ok {
 			return nil, fmt.Errorf("failed to write item: %v - %v", aerr.Code(), aerr.Message())

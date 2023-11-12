@@ -12,7 +12,7 @@ import (
 
 func (s *Server) createProduct(ctx *gin.Context) {
 	var req CreateProductRequest
-	err := ctx.ShouldBindJSON(&req)
+	err := ctx.ShouldBind(&req)
 	if err != nil {
 		logger.Error(ctx, "cannot pass validation", err)
 		ctx.JSON(http.StatusBadRequest, s.svc.Error(ctx, util.EN_API_PARAMETER_INVALID_ERROR, "Bad request"))
@@ -24,11 +24,36 @@ func (s *Server) createProduct(ctx *gin.Context) {
 		logger.Error(ctx, "cannot generate productID", err)
 		ctx.JSON(http.StatusInternalServerError, s.svc.Error(ctx, util.EN_INTERNAL_SERVER_ERROR, "Internal Server Error"))
 	}
+
+	file, fileHeader, err := ctx.Request.FormFile("file")
+	if err != nil {
+		logger.Error(ctx, "cannot extract filename", err)
+		ctx.JSON(http.StatusInternalServerError, s.svc.Error(ctx, util.EN_INTERNAL_SERVER_ERROR, "Internal Server Error"))
+		return
+	}
+	defer file.Close()
+
+	fileURL, err := s.svc.UploadFile(ctx, file, fileHeader)
+	if err != nil {
+		logger.Error(ctx, "cannot upload file into s3", err)
+		ctx.JSON(http.StatusInternalServerError, s.svc.Error(ctx, util.EN_INTERNAL_SERVER_ERROR, "Internal Server Error"))
+		return
+	}
+
+	createdAt := util.GetCurrentTimestamp()
+	expiryDate := createdAt + +(req.ExpiryDate * 24 * 60 * 60 * 1000)
+
 	product := &service.Product{
-		ID:          productID.String(),
-		Name:        req.Name,
-		Quantity:    req.Quantity,
-		BuyingPrice: req.Price,
+		ID:             productID.String(),
+		Name:           req.Name,
+		Quantity:       req.Quantity,
+		Image:          fileURL,
+		BuyingPrice:    req.BuyingPrice,
+		Category:       req.Category,
+		Status:         "available",
+		ThreSholdValue: req.ThreSholdValue,
+		CreatedAt:      createdAt,
+		ExpiryDate:     expiryDate,
 	}
 
 	pro, err := s.svc.CreateProduct(ctx, product)

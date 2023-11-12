@@ -6,6 +6,8 @@ type Product struct {
 	BuyingPrice    float64 `json:"BuyingPrice"`
 	Quantity       int64   `json:"Quantity"`
 	ThreSholdValue int64   `json:"ThresholdValue"`
+	Image          string  `json:"Image"`
+	Category       string  `json:"Category"`
 	ExpiryDate     int64   `json:"ExpiryDate"`
 	Status         string  `json:"Status"`
 	CreatedAt      int64   `json:"CreatedAt"`

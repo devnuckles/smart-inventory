@@ -1,11 +1,12 @@
 package rest
 
 type CreateProductRequest struct {
-	Name        string  `json:"name" binding:"required"`
-	Description string  `json:"description"`
-	Price       float64 `json:"price" binding:"required"`
-	Quantity    int64   `json:"quantity" binding:"required"`
-	ExpiryDate  int64   `json:"expiry_date"`
+	Name           string  `form:"name" binding:"required"`
+	BuyingPrice    float64 `form:"buying_price" binding:"required"`
+	Category       string  `form:"category" binding:"required"`
+	Quantity       int64   `form:"quantity" binding:"required"`
+	ExpiryDate     int64   `form:"expiry_date"`
+	ThreSholdValue int64   `form:"threshold_value" binding:"required"`
 }
 
 type CreateProductResponse struct {
@@ -17,10 +18,12 @@ type CreateProductResponse struct {
 }
 
 type UpdateProductReq struct {
-	Name        string  `json:"name" binding:"required"`
-	BuyingPrice float64 `json:"buying_price" binding:"required"`
-	Quantity    int64   `json:"quantity" binding:"required"`
-	ExpiryDate  int64   `json:"expiry_date" binding:"required"`
+	Name           string  `form:"name" binding:"required"`
+	Category       string  `form:"category" binding:"required"`
+	BuyingPrice    float64 `form:"buying_price" binding:"required"`
+	Quantity       int64   `form:"quantity" binding:"required"`
+	ThreSholdValue int64   `form:"threshold_value" binding:"required"`
+	ExpiryDate     int64   `form:"expiry_date" binding:"required"`
 }
 
 type productResponse struct {

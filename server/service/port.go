@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"mime/multipart"
 	"time"
 )
 
@@ -25,6 +26,9 @@ type Service interface {
 	GetOrderByID(ctx context.Context, id string) (*Order, error)
 	UpdateOrder(ctx context.Context, order *Order) error
 	GetAllOrders(ctx context.Context) (*OrdersResult, error)
+
+	////File Services
+	UploadFile(ctx context.Context, file multipart.File, fileHeader *multipart.FileHeader) (string, error)
 
 	///Others
 	Error(ctx context.Context, internalCode string, description string) *ErrorResponse
@@ -60,6 +64,7 @@ type ErrorRepo interface {
 }
 
 type FileRepo interface {
+	Upload(ctx context.Context, file multipart.File, fileHeader *multipart.FileHeader) (string, error)
 }
 
 type Cache interface {
