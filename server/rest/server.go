@@ -50,11 +50,18 @@ func (server *Server) setupRouter() {
 
 	///product routes
 
+<<<<<<< HEAD
 	authRoutes.POST("/api/items/create", server.createProduct) //testing done
 	authRoutes.DELETE("/api/items/:id", server.deleteProduct)  //testing done
 	authRoutes.PATCH("/api/items/:id", server.updateProduct)   //testing done
 	authRoutes.GET("/api/items/:id", server.getProduct)        //testing done
 	authRoutes.GET("/api/items/all", server.getAllProducts)    //testing done
+=======
+	authRoutes.POST("/api/item/screate", server.createProduct)
+	authRoutes.DELETE("/api/item/s:id", server.deleteProduct)
+	authRoutes.PATCH("/api/items/:id", server.updateProduct)
+	authRoutes.GET("/api/items/all", server.getAllProducts)
+>>>>>>> 04a3369 (Rewfactor)
 
 	///order routes
 	authRoutes.POST("/api/orders/create", server.createOrder)
