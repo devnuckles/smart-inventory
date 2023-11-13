@@ -1,6 +1,8 @@
 import React from "react";
 import Button from "@mui/material/Button";
 import InventoryTable from "./InventoryTable.component";
+import { DynamicModal } from "../../../core";
+import AddProduct from "./add-product-form.component";
 
 function createData(
     products,
@@ -97,15 +99,13 @@ export default function Inventory() {
                                 <h2>Products</h2>
                             </div>
                             <div className="col-lg-5 inventory-table-header-button text-end">
-                                <Button className="me-2" variant="contained">
-                                    Add Product
-                                </Button>
-                                <Button className="me-2" variant="outlined">
+                                <DynamicModal Element={<AddProduct />} />
+                                {/* <Button className="me-2" variant="outlined">
                                     <i className="bi bi-filter"></i>Filters
                                 </Button>
                                 <Button className="" variant="outlined">
                                     Download all
-                                </Button>
+                                </Button> */}
                             </div>
                         </div>
                     </div>
