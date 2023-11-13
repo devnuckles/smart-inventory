@@ -288,7 +288,6 @@
 .inventory-table-header-button button:nth-child(2),
 .inventory-table-header-button button:nth-child(3) {
     color: #5d6679 !important;
-    border-color: ;
 }
 .css-y8ay40-MuiTableCell-root {
     color: var(--grey-grey-500, #667085) !important;
@@ -316,4 +315,47 @@
     font-weight: 400 !important;
     line-height: 20px !important;
     margin: 0;
+}
+
+/* Inventory Modal  */
+.inventory-modal {
+    border: 1px solid #f2f2f2;
+    border-radius: 8px;
+    width: 500px;
+    margin: 0 auto;
+}
+.modal-input-label {
+    color: var(--grey-grey-700, #48505e);
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px;
+}
+.modal-input input::placeholder {
+    color: var(--grey-grey-400, #858d9d) !important;
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+}
+.modal-input input:focus {
+    border: 1px solid #0acf83 !important;
+}
+.inventory-modal-button button {
+    padding: 10px 16px !important;
+    font-family: Inter;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px;
+}
+.inventory-modal-button .add-product {
+    background: #1366d9;
+}
+.inventory-modal-button .discard {
+    color: var(--grey-grey-400, #858d9d);
+    border: 1px solid var(--grey-grey-50, #f0f1f3);
+    background: #fff !important;
 }
