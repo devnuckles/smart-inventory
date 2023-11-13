@@ -1,0 +1,241 @@
+.login-page-left-heading {
+    color: #009ed8;
+    font-family: "Inter", sans-serif;
+    font-size: 47px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+.login-page-right-image {
+    width: 48px;
+}
+.login-page-right-heading {
+    font-family: "Inter", sans-serif;
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 38px;
+    text-align: center;
+    color: #2b2f38;
+}
+.login-page-right-paragraph {
+    font-family: "Inter", sans-serif;
+    text-align: center;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+    color: #667085;
+}
+.login-page-right-form-label {
+    font-family: "Inter", sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px;
+    text-align: left;
+    color: #48505e;
+}
+.login-page-right-form-input {
+    border-radius: 8px;
+    border: 1px solid #d0d5dd;
+    background: #fff;
+
+    /* Shadow/xs */
+    box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+}
+.login-page-right-form-input:focus {
+    border: 1px solid #0acf83 !important;
+}
+.login-page-right-form-input::placeholder {
+    font-family: "Inter", sans-serif;
+    color: #667085;
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+}
+.login-page-right-form-check .checkbox input:focus {
+    border: 1px solid #0acf83 !important;
+}
+.login-page-right-form-check .forgot-password a,
+.dont-have-a-account a {
+    color: #1366d9;
+    font-family: "Inter", sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px;
+}
+.sign-in-button {
+    color: #fff;
+    font-family: "Inter", sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px;
+    border-radius: 4px !important;
+}
+.sign-in-with-google {
+    border: 1px solid #d0d5dd !important;
+    transition: all linear 0.3s;
+}
+.sign-in-with-google:hover {
+    background: #fff !important;
+    border: 1px solid #0acf83 !important;
+}
+.dont-have-a-account p {
+    color: #667085;
+    font-family: "Inter", sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+}
+
+/* Sign Up Page  */
+.signup-page-right-form-password-info {
+    color: #667085;
+    font-family: "Inter", sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+}
+
+/* Dashboard Page  */
+.css-euma8y-MuiButtonBase-root-MuiTab-root > .MuiTab-iconWrapper {
+    margin-right: 10px !important;
+}
+.css-t3lg8-MuiTabs-indicator {
+    display: none;
+}
+.css-1t9p2dd-MuiButtonBase-root-MuiTab-root.Mui-selected {
+    color: #1570ef !important;
+}
+.css-euma8y-MuiButtonBase-root-MuiTab-root {
+    font-family: "Inter", sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px;
+    min-height: 50px !important;
+}
+.css-1g4ac1o-MuiTabs-root .MuiTabs-scrollButtons {
+    display: none !important;
+}
+.dashboard-left-bottom-buttons {
+    padding: 9px 16px;
+}
+.dashboard-left-bottom-buttons a {
+    color: #5d6679;
+    font-family: "Inter", sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px;
+}
+.dashboard-right-header-search {
+    width: 50%;
+    padding: 10px 16px;
+    border-radius: 4px;
+    border: 1px solid #f0f1f3;
+}
+.dashboard-right-header-search i {
+    width: 10% !important;
+}
+.dashboard-right-header-search input {
+    border: none;
+    border: 1px solid #fff;
+    width: 85% !important;
+    padding: 0 !important;
+    border-radius: 2px;
+}
+.dashboard-right-header-search input:focus {
+    border: 1px solid #fff !important;
+}
+.dashboard-right-header-search input::placeholder {
+    color: #858d9d;
+    font-family: "Inter", sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+}
+.dashboard-right-header-right i {
+    font-size: 20px;
+    color: #5d6679 !important;
+}
+.dashboard-right-header-right img {
+    border-radius: 50%;
+}
+
+.dashboard-left-header img {
+    width: 48px;
+    height: 48px;
+}
+.dashboard-left-header h2 {
+    color: #1570ef;
+    text-align: left;
+    font-family: "Inter", sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 30px; /* 150% */
+}
+
+.dashboard-parent {
+    background: #f0f1f3;
+}
+.dashboard-sales-overview,
+.dashboard-inventory-summary {
+    color: #383e49;
+    border-radius: 8px;
+    font-family: "Inter", sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 30px; /* 150% */
+}
+.dashboard-card-details span:first-child {
+    color: #5d6679;
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 24px; /* 150% */
+}
+.dashboard-card-details span:last-child {
+    color: #667085;
+
+    /* Body 2/Medium */
+    font-family: Inter;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px;
+}
+
+.dashboard-inventory-summary .dashboard-card-details span {
+    display: block !important;
+    width: 100% !important;
+    text-align: center !important;
+}
+
+.dashboard-card-heading {
+    color: #383e49;
+    font-family: Inter;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 30px; /* 150% */
+}
+
+/* Inventory Page  */
+.inventory-parent {
+    background: #f0f1f3;
+}
+.inventory-card {
+    background: #fff;
+    border-radius: 8px;
+}
