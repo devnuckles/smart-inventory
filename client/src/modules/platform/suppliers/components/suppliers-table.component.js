@@ -42,7 +42,7 @@ export default function SupplierTable() {
                 </div>
             </div>
             <div className="inventory-table text-start">
-                <DynamicTable columns={columns} rows={rows} />
+                <DynamicTable columns={columns} rows={rows} pagination={true} />
             </div>
         </div>
     );

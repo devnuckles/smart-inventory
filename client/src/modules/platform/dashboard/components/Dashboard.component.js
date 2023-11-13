@@ -9,7 +9,7 @@ import StockStatus from "../../stock/components/stock-status.component";
 
 export default function Dashboard() {
     return (
-        <>
+        <div className=" inventory-parent p-3">
             <div class="row mb-4">
                 <SalesCard />
                 <InventoryCard />
@@ -55,6 +55,6 @@ export default function Dashboard() {
                     </div>
                 </div>
             </div>
-        </>
+        </div>
     );
 }

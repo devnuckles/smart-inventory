@@ -6,6 +6,7 @@ import {
     ProductView,
     SupplierTable,
     OrderComponent,
+    Report,
 } from "../modules/platform";
 import { DashboardLayout } from "../modules/core";
 
@@ -52,6 +53,14 @@ const Routes = createBrowserRouter([
         element: (
             <DashboardLayout>
                 <OrderComponent />
+            </DashboardLayout>
+        ),
+    },
+    {
+        path: "/reports",
+        element: (
+            <DashboardLayout>
+                <Report />
             </DashboardLayout>
         ),
     },

@@ -3,6 +3,7 @@ import { Inventory, ProductView } from "./inventory";
 import { Dashboard } from "./dashboard";
 import { SupplierTable } from "./suppliers";
 import { OrderComponent } from "./order";
+import { Report } from "./reports";
 
 export {
     Login,
@@ -12,4 +13,5 @@ export {
     ProductView,
     SupplierTable,
     OrderComponent,
+    Report,
 };

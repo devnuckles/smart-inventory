@@ -1,2 +1,3 @@
 import PurchaseCard from "./components/purchase-card.component";
-export { PurchaseCard };
+import PurchaseOverviewCard from "./components/purchase-overview.component";
+export { PurchaseCard, PurchaseOverviewCard };
