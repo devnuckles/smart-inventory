@@ -3,9 +3,9 @@ package service
 import (
 	"context"
 	"crypto/tls"
-	"io"
 	"io/ioutil"
 	"os"
+	"path/filepath"
 	"strconv"
 
 	"github.com/360EntSecGroup-Skylar/excelize"
@@ -39,15 +39,7 @@ func (s *service) SendMail(ctx context.Context, emailTo []string, subject, email
 		return err
 	}
 
-	_, err = tempFile.Seek(0, io.SeekStart) 
-	if err != nil {
-		return err
-	}
-
-	// Attach the file directly from the temporary file.
-	// if err := msg.Attach(tempFile.Name(), gomail.Rename(filepath.Base(tempFile.Name()))); err != nil {
-	// 	return err
-	// }
+	msg.Attach(tempFile.Name(), gomail.Rename(filepath.Base(tempFile.Name())))
 
 	dialer := gomail.NewDialer(s.smtpConfig.Host, port, s.smtpConfig.Email, s.smtpConfig.Password)
 	dialer.TLSConfig = &tls.Config{InsecureSkipVerify: true}

@@ -12,7 +12,7 @@ import (
 
 func (s *Server) createOrder(ctx *gin.Context) {
 	var req createOrderReq
-	err := ctx.ShouldBindJSON(&req)
+	err := ctx.ShouldBind(&req)
 	if err != nil {
 		logger.Error(ctx, "cannot pass validation", err)
 		ctx.JSON(http.StatusBadRequest, s.svc.Error(ctx, util.EN_API_PARAMETER_INVALID_ERROR, "Bad Request"))
@@ -45,7 +45,12 @@ func (s *Server) createOrder(ctx *gin.Context) {
 
 	orderBody, _ := s.svc.GetOrderBody(ctx, order)
 	mailBody := generateEmailBody()
-	err = s.svc.SendMail(ctx, []string{req.VendorEmail}, "Request for New Order",mailBody , orderBody)
+	err = s.svc.SendMail(ctx, []string{req.VendorEmail}, "Request for New Order", mailBody, orderBody)
+	if err != nil {
+		logger.Error(ctx, "cannot place order via email", err)
+		ctx.JSON(http.StatusInternalServerError, s.svc.Response(ctx, util.EN_INTERNAL_SERVER_ERROR, "Internal Server Error"))
+		return
+	}
 
 	ctx.JSON(http.StatusOK, s.svc.Response(ctx, "Order Created Successfully", nil))
 }

@@ -37,6 +37,7 @@ func serveRest() {
 	})
 
 	userRepo := repo.NewUserRepo(ddbClient, tableConfig.UserTableName)
+	supplierRepo := repo.NewSupplierRepo(ddbClient, tableConfig.SupplierTableName)
 	productRepo := repo.NewProductRepo(ddbClient, tableConfig.ProdcutTableName)
 	orderRepo := repo.NewOrderRepo(ddbClient, tableConfig.OrderTableName)
 	fileRepo := repo.NewFileRepo(s3Client, s3Config.Bucket)
@@ -44,7 +45,7 @@ func serveRest() {
 	authorization := permission.NewAuthorization()
 	cache := cache.NewCache(redisClient)
 
-	svc := service.NewService(userRepo, productRepo, fileRepo, errorRepo, cache, authorization, orderRepo, smtpConfig)
+	svc := service.NewService(userRepo, productRepo, fileRepo, errorRepo, cache, authorization, orderRepo, smtpConfig, supplierRepo)
 	server, err := rest.NewServer(appConfig, svc, saltConfig, tokenConfig)
 	if err != nil {
 		panic("Server can not start")

@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 	"fmt"
+	"time"
 
 	"github.com/360EntSecGroup-Skylar/excelize"
 )
@@ -51,7 +52,7 @@ func (s *service) GetOrderBody(ctx context.Context, order *Order) (*excelize.Fil
 	file := excelize.NewFile()
 
 	headers := []string{"Order ID", "Product Name", "Vendor Email", "Category", "Quantity", "Order Date", "Delivery Date"}
-	values := []string{order.ID, order.ProductName, order.VendorEmail, order.Category, fmt.Sprint(order.Quantity), string(order.OrderDate), string(order.DeliveryDate)}
+	values := []string{order.ID, order.ProductName, order.VendorEmail, order.Category, fmt.Sprint(order.Quantity), formatDate(order.OrderDate), formatDate(order.DeliveryDate)}
 
 	for col, header := range headers {
 		cell := fmt.Sprintf("%c%d", 'A'+col, 1)
@@ -64,4 +65,10 @@ func (s *service) GetOrderBody(ctx context.Context, order *Order) (*excelize.Fil
 	}
 
 	return file, nil
+}
+
+func formatDate(date int64) string {
+	parsedDate := time.Unix(date, 0)
+	
+	return parsedDate.Format("January 02, 2006")
 }

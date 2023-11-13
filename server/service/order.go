@@ -1,7 +1,7 @@
 package service
 
 type Order struct {
-	ID           string  `json:"OrderId"`
+	ID           string  `json:"Id"`
 	ProductName  string  `json:"ProductName"`
 	BuyingPrice  float64 `json:"BuyingPrice"`
 	Category     string  `json:"Category"`

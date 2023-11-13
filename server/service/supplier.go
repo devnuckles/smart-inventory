@@ -9,3 +9,7 @@ type Supplier struct {
 	Return      string `json:"Return"`
 	Quantity    int64  `json:"Quantity"`
 }
+
+type SupplierResult struct {
+	Suppliers []*Supplier `json:"Suppliers"`
+}

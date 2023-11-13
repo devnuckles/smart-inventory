@@ -133,12 +133,12 @@ func (r *orderRepo) UpdateOrder(ctx context.Context, order *service.Order) error
 		},
 		UpdateExpression: aws.String("SET #c = :c, #p = :p, #q = :q, #t = :t, #ct = :ct, #d = :d"),
 		ExpressionAttributeNames: map[string]*string{
-			"#c": aws.String("CustomerId"),
-			"#p": aws.String("ProductId"),
-			"#q": aws.String("Quantity"),
-			"#t": aws.String("TotalAmount"),
+			"#c":  aws.String("CustomerId"),
+			"#p":  aws.String("ProductId"),
+			"#q":  aws.String("Quantity"),
+			"#t":  aws.String("TotalAmount"),
 			"#ct": aws.String("Category"),
-			"#d": aws.String("DeliveryDate"),
+			"#d":  aws.String("DeliveryDate"),
 		},
 	}
 

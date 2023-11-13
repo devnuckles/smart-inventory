@@ -32,6 +32,14 @@ type Service interface {
 	GetOrderBody(ctx context.Context, order *Order) (*excelize.File, error)
 	SendMail(ctx context.Context, emailTo []string, subject, emailBody string, file *excelize.File) error
 
+	///Supplier Services
+	GetSupplierByEmail(ctx context.Context, email string) (*Supplier, error)
+	GetSuppliers(ctx context.Context) (*SupplierResult, error)
+	CreateSupplier(ctx context.Context, sup *Supplier) error
+	DeleteSupplier(ctx context.Context, id string) error
+	GetSupplierByID(ctx context.Context, id string) (*Supplier, error)
+	UpdateSupplier(ctx context.Context, sup *Supplier) error
+
 	////File Services
 	UploadFile(ctx context.Context, file multipart.File, fileHeader *multipart.FileHeader) (string, error)
 
@@ -47,6 +55,15 @@ type UserRepo interface {
 	DeleteItemByID(ctx context.Context, id string) error
 	GetItemByID(ctx context.Context, id string) (*User, error)
 	UpdateItemByID(ctx context.Context, user *User) error
+}
+
+type SupplierRepo interface {
+	Create(ctx context.Context, sup *Supplier) error
+	GetSupplierByEmail(ctx context.Context, email string) (*Supplier, error)
+	DeleteSupplierByID(ctx context.Context, id string) error
+	GetSupplierByID(ctx context.Context, id string) (*Supplier, error)
+	UpdateSupplierByID(ctx context.Context, sup *Supplier) error
+	GetAllSuppliers(ctx context.Context) (*SupplierResult, error)
 }
 
 type ProductRepo interface {

@@ -18,6 +18,7 @@ type service struct {
 	productRepo   ProductRepo
 	orderRepo     OrderRepo
 	smtpConfig    *config.Smtp
+	supplierRepo  SupplierRepo
 }
 
 func NewService(
@@ -29,6 +30,7 @@ func NewService(
 	authorization Authorization,
 	orderRepo OrderRepo,
 	smtpConfig *config.Smtp,
+	supplierRepo SupplierRepo,
 ) Service {
 	return &service{
 		userRepo:      userRepo,
@@ -39,6 +41,7 @@ func NewService(
 		authorization: authorization,
 		orderRepo:     orderRepo,
 		smtpConfig:    smtpConfig,
+		supplierRepo:  supplierRepo,
 	}
 }
 

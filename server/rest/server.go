@@ -50,18 +50,26 @@ func (server *Server) setupRouter() {
 
 	///product routes
 
-	authRoutes.POST("/api/items/create", server.createProduct)   //testing done
-	authRoutes.DELETE("/api/items/:id", server.deleteProduct)    //testing done
-	authRoutes.PATCH("/api/items/:id", server.updateProduct)     //testing done
-	authRoutes.GET("/api/items/:id", server.getProduct)          //testing done
-	authRoutes.GET("/api/items/all", server.getAllProducts)      //testing done
+	authRoutes.POST("/api/items/create", server.createProduct) //testing done
+	authRoutes.DELETE("/api/items/:id", server.deleteProduct)  //testing done
+	authRoutes.PATCH("/api/items/:id", server.updateProduct)   //testing done
+	authRoutes.GET("/api/items/:id", server.getProduct)        //testing done
+	authRoutes.GET("/api/items/all", server.getAllProducts)    //testing done
 
 	///order routes
-	authRoutes.POST("/api/order/create", server.createOrder)
-	authRoutes.DELETE("/api/order/:id", server.cancelOrder)
-	authRoutes.GET("/api/order/:id", server.getOrder)
-	authRoutes.PATCH("/api/order/:id", server.updateOrder)
-	authRoutes.GET("/api/order/all", server.getAllOrders)
+	authRoutes.POST("/api/orders/create", server.createOrder)
+	authRoutes.DELETE("/api/orders/:id", server.cancelOrder)
+	authRoutes.GET("/api/orders/:id", server.getOrder)
+	authRoutes.PATCH("/api/orders/:id", server.updateOrder)
+	authRoutes.GET("/api/orders/all", server.getAllOrders)
+
+	///supplier routes
+
+	authRoutes.POST("/api/suppliers/add", server.addSupplier)
+	authRoutes.DELETE("/api/suppliers/:id", server.deleteSupplier)
+	authRoutes.PATCH("/api/suppliers/:id", server.updateSuplier)
+	authRoutes.GET("/api/suppliers/all", server.getAllSupplier)
+	authRoutes.GET("/api/suppliers/:id", server.getSupplier)
 
 	server.router = router
 }

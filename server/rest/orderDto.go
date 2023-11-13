@@ -1,21 +1,21 @@
 package rest
 
 type createOrderReq struct {
-	ProductName  string `json:"product_name" binding:"required"`
-	BuyingPrice  string `json:"buying_price" binding:"required"`
-	VendorEmail  string `json:"vendor_email" binding:"required"`
-	Category     string `json:"category" binding:"required"`
-	Quantity     int64  `json:"quantity" binding:"required"`
-	DeliveryDate int64  `json:"delivery_date" binding:"required"`
+	ProductName  string `form:"product_name" binding:"required"`
+	BuyingPrice  string `form:"buying_price" binding:"required"`
+	VendorEmail  string `form:"vendor_email" binding:"required"`
+	Category     string `form:"category" binding:"required"`
+	Quantity     int64  `form:"quantity" binding:"required"`
+	DeliveryDate int64  `form:"delivery_date" binding:"required"`
 }
 
 type updateOrderReq struct {
-	ProductName  string  `json:"product_name" binding:"required"`
-	VendorEmail  string  `json:"vendor_email" binding:"required"`
-	Category     string  `json:"category" binding:"category"`
-	Quantity     int64   `json:"quantity" binding:"required"`
-	BuyingPrice  float64 `json:"total_amount" binding:"required"`
-	DeliveryDate int64   `json:"delivery_date" binding:"required"`
+	ProductName  string  `form:"product_name" binding:"required"`
+	VendorEmail  string  `form:"vendor_email" binding:"required"`
+	Category     string  `form:"category" binding:"category"`
+	Quantity     int64   `form:"quantity" binding:"required"`
+	BuyingPrice  float64 `form:"total_amount" binding:"required"`
+	DeliveryDate int64   `form:"delivery_date" binding:"required"`
 }
 
 type orderRes struct {
