@@ -27,12 +27,14 @@ type UpdateProductReq struct {
 }
 
 type productResponse struct {
-	ID          string  `json:"id"`
-	Name        string  `json:"name"`
-	BuyingPrice float64 `json:"buying_price"`
-	Quantity    int64   `json:"quantity"`
-	ExpiryDate  int64   `json:"expiry_date"`
-	CreatedAt   int64   `json:"created_at"`
+	ID             string  `json:"id"`
+	Name           string  `json:"name"`
+	BuyingPrice    float64 `json:"buying_price"`
+	Quantity       int64   `json:"quantity"`
+	ExpiryDate     int64   `json:"expiry_date"`
+	ThreSholdValue int64   `json:"threshold_value"`
+	CreatedAt      int64   `json:"created_at"`
+	Status         string  `json:"status"`
 }
 
 type getProductRes struct {

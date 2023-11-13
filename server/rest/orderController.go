@@ -26,14 +26,18 @@ func (s *Server) createOrder(ctx *gin.Context) {
 		return
 	}
 
+	createdAt := util.GetCurrentTimestamp()
+	expiryDate := createdAt + +(req.DeliveryDate * 24 * 60 * 60 * 1000)
+
 	order := &service.Order{
 		ID:           orderId.String(),
 		ProductName:  req.ProductName,
+		BuyingPrice:  req.BuyingPrice,
 		VendorEmail:  req.VendorEmail,
 		Category:     req.Category,
 		Quantity:     int(req.Quantity),
-		OrderDate:    util.GetCurrentTimestamp(),
-		DeliveryDate: req.DeliveryDate,
+		OrderDate:    createdAt,
+		DeliveryDate: expiryDate,
 	}
 
 	err = s.svc.CreateOrder(ctx, order)

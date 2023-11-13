@@ -122,13 +122,25 @@ func (s *Server) getAllProducts(ctx *gin.Context) {
 
 	var products []*productResponse
 	for _, pro := range productResult.Products {
+		var status string
+
+		if pro.Quantity > pro.ThreSholdValue {
+			status = "In Stock"
+		} else if pro.Quantity < pro.ThreSholdValue && pro.Quantity > 0 {
+			status = "Low Stock"
+		} else {
+			status = "Out Of Stock"
+		}
+
 		proRes := &productResponse{
-			ID:          pro.ID,
-			Name:        pro.Name,
-			BuyingPrice: pro.BuyingPrice,
-			Quantity:    pro.Quantity,
-			ExpiryDate:  pro.ExpiryDate,
-			CreatedAt:   pro.CreatedAt,
+			ID:             pro.ID,
+			Name:           pro.Name,
+			BuyingPrice:    pro.BuyingPrice,
+			Quantity:       pro.Quantity,
+			ExpiryDate:     pro.ExpiryDate,
+			CreatedAt:      pro.CreatedAt,
+			ThreSholdValue: pro.ThreSholdValue,
+			Status:         status,
 		}
 		products = append(products, proRes)
 	}

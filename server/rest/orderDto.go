@@ -1,12 +1,12 @@
 package rest
 
 type createOrderReq struct {
-	ProductName  string `form:"product_name" binding:"required"`
-	BuyingPrice  string `form:"buying_price" binding:"required"`
-	VendorEmail  string `form:"vendor_email" binding:"required"`
-	Category     string `form:"category" binding:"required"`
-	Quantity     int64  `form:"quantity" binding:"required"`
-	DeliveryDate int64  `form:"delivery_date" binding:"required"`
+	ProductName  string  `form:"product_name" binding:"required"`
+	BuyingPrice  float64 `form:"buying_price" binding:"required"`
+	VendorEmail  string  `form:"vendor_email" binding:"required"`
+	Category     string  `form:"category" binding:"required"`
+	Quantity     int64   `form:"quantity" binding:"required"`
+	DeliveryDate int64   `form:"delivery_date" binding:"required"`
 }
 
 type updateOrderReq struct {
