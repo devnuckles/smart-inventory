@@ -1,36 +1,36 @@
 import React from "react";
 import Button from "@mui/material/Button";
-import InventoryTable from "./InventoryTable.component";
+import OrderTable from "./order-table.component";
 import { DynamicModal } from "../../../core";
-import AddProduct from "../../product/components/add-product-form.component";
+import { AddProduct } from "../../product";
 
-export default function Inventory() {
+export default function OrderComponent() {
     const topCardData = [
         {
-            title: "Categories",
+            title: "Total Orders",
             count: 14,
             days: "Last 7 days",
         },
         {
-            title: "Total Products",
+            title: "Total Recieved",
             count: 868,
-            days: "Last 7 days",
-            dataValue: "₹25,000",
-            additionalInfo: "Revenue",
-        },
-        {
-            title: "Top Selling",
-            count: 5,
             days: "Last 7 days",
             dataValue: "₹25,000",
             additionalInfo: "Cost",
         },
         {
-            title: "Low Stocks",
+            title: "Total Returned",
+            count: 5,
+            days: "Last 7 days",
+            dataValue: "₹25,000",
+            additionalInfo: "Ordered",
+        },
+        {
+            title: "On the way",
             count: 12,
             days: "Ordered",
             dataValue: "2",
-            additionalInfo: "Not in stock",
+            additionalInfo: "Cost",
         },
         // Add more data objects as needed
     ];
@@ -39,9 +39,7 @@ export default function Inventory() {
         <div className="row inventory-parent p-3">
             <div className="row inventory-card p-3 m-0">
                 <div className="col-lg-12 ">
-                    <h2 className="dashboard-card-heading">
-                        Overall Inventory
-                    </h2>
+                    <h2 className="dashboard-card-heading">Overall Orders</h2>
                 </div>
 
                 {topCardData.map((data, index) => (
@@ -75,12 +73,15 @@ export default function Inventory() {
                 <div className="inventory-table-header mb-4">
                     <div className="row">
                         <div className="col-lg-7">
-                            <h2>Products</h2>
+                            <h2>Orders</h2>
                         </div>
                         <div className="col-lg-5 inventory-table-header-button text-end">
                             <div className="row">
                                 <div className="col-lg-4 p-0">
-                                    <DynamicModal Element={<AddProduct />} />
+                                    <DynamicModal
+                                        Element={<AddProduct />}
+                                        label="Add Order"
+                                    />
                                 </div>
                                 <div className="col-lg-3 p-0">
                                     <Button
@@ -104,7 +105,7 @@ export default function Inventory() {
                     </div>
                 </div>
                 <div className="inventory-table text-start">
-                    <InventoryTable />
+                    <OrderTable />
                 </div>
             </div>
         </div>

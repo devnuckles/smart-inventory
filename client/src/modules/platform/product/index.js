@@ -1,2 +1,3 @@
 import ProductCard from "./components/product-card.component";
-export { ProductCard };
+import AddProduct from "./components/add-product-form.component";
+export { ProductCard, AddProduct };

@@ -13,15 +13,19 @@ const style = {
     width: "40%",
 };
 
-export default function DynamicModal({ Element }) {
+export default function DynamicModal({ Element, label }) {
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
     return (
         <div>
-            <Button onClick={handleOpen} className="me-2" variant="contained">
-                Add Product
+            <Button
+                onClick={handleOpen}
+                className="me-2 custom-font-size"
+                variant="contained"
+            >
+                {label ? label : "Add Product"}
             </Button>
             <Modal
                 aria-labelledby="transition-modal-title"

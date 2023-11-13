@@ -5,6 +5,7 @@ import {
     Inventory,
     ProductView,
     SupplierTable,
+    OrderComponent,
 } from "../modules/platform";
 import { DashboardLayout } from "../modules/core";
 
@@ -43,6 +44,14 @@ const Routes = createBrowserRouter([
         element: (
             <DashboardLayout>
                 <SupplierTable />
+            </DashboardLayout>
+        ),
+    },
+    {
+        path: "/orders",
+        element: (
+            <DashboardLayout>
+                <OrderComponent />
             </DashboardLayout>
         ),
     },

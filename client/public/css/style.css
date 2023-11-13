@@ -373,3 +373,7 @@
     transition: all linear 0.3s;
     color: #5d6679 !important;
 }
+
+.MuiButtonBase-root {
+    font-size: 11px !important;
+}
