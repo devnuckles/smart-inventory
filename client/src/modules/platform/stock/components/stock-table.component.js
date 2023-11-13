@@ -1,6 +1,6 @@
 import DynamicTable from "../../../core/common/table/table.component";
-import { columns, rows } from "../inventory-table-tool";
+import { columns, rows } from "../../dashboard/dashboard-table-tool";
 
-export default function InventoryTable() {
+export default function StockTable() {
     return <DynamicTable columns={columns} rows={rows} />;
 }
