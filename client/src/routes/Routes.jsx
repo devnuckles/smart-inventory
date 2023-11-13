@@ -1,10 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
-import Login from "../modules/platform/users/component/Login.component";
-import DashboardLayout from "../modules/core/common/dashboard/layout";
-import Dashboard from "../modules/core/common/dashboard/Dashboard.component";
-import Inventory from "../modules/core/common/dashboard/Inventory.component";
-import InventoryModal from "../modules/core/common/dashboard/InventoryModal.component";
-import ProductView from "../modules/core/common/dashboard/ProductView.component";
+import { Login, Dashboard, Inventory, ProductView } from "../modules/platform";
+import { DashboardLayout } from "../modules/core";
 
 const Routes = createBrowserRouter([
     {
@@ -27,14 +23,7 @@ const Routes = createBrowserRouter([
             </DashboardLayout>
         ),
     },
-    {
-        path: "/inventory-modal",
-        element: (
-            <DashboardLayout>
-                <InventoryModal />
-            </DashboardLayout>
-        ),
-    },
+
     {
         path: "/product-view",
         element: (
@@ -43,6 +32,14 @@ const Routes = createBrowserRouter([
             </DashboardLayout>
         ),
     },
+    // {
+    //     path: "/test-route",
+    //     element: (
+    //         <DashboardLayout>
+    //             <InventoryModal />
+    //         </DashboardLayout>
+    //     ),
+    // },
 ]);
 
 export default Routes;
