@@ -1,2 +1,2 @@
-import OrderComponent from "./components/order.component";
-export { OrderComponent };
+import Order from "./components/order.component";
+export { Order };

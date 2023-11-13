@@ -4,9 +4,10 @@ import {
     Dashboard,
     Inventory,
     ProductView,
-    SupplierTable,
-    OrderComponent,
+    Supplier,
+    Order,
     Report,
+    Store,
 } from "../modules/platform";
 import { DashboardLayout } from "../modules/core";
 
@@ -44,7 +45,7 @@ const Routes = createBrowserRouter([
         path: "/suppliers",
         element: (
             <DashboardLayout>
-                <SupplierTable />
+                <Supplier />
             </DashboardLayout>
         ),
     },
@@ -52,7 +53,7 @@ const Routes = createBrowserRouter([
         path: "/orders",
         element: (
             <DashboardLayout>
-                <OrderComponent />
+                <Order />
             </DashboardLayout>
         ),
     },
@@ -61,6 +62,14 @@ const Routes = createBrowserRouter([
         element: (
             <DashboardLayout>
                 <Report />
+            </DashboardLayout>
+        ),
+    },
+    {
+        path: "/manage-store",
+        element: (
+            <DashboardLayout>
+                <Store />
             </DashboardLayout>
         ),
     },

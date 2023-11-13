@@ -4,7 +4,7 @@ import OrderTable from "./order-table.component";
 import { DynamicModal } from "../../../core";
 import { AddProduct } from "../../product";
 
-export default function OrderComponent() {
+export default function Order() {
     const topCardData = [
         {
             title: "Total Orders",

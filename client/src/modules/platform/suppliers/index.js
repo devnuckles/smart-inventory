@@ -1,2 +1,2 @@
-import SupplierTable from "./components/suppliers-table.component";
-export { SupplierTable };
+import Supplier from "./components/supplier.component";
+export { Supplier };

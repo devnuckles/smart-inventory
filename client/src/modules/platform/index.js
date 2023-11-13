@@ -1,9 +1,10 @@
 import { Login, Signup } from "./users";
 import { Inventory, ProductView } from "./inventory";
 import { Dashboard } from "./dashboard";
-import { SupplierTable } from "./suppliers";
-import { OrderComponent } from "./order";
+import { Supplier } from "./suppliers";
+import { Order } from "./order";
 import { Report } from "./reports";
+import { Store } from "./store";
 
 export {
     Login,
@@ -11,7 +12,8 @@ export {
     Inventory,
     Dashboard,
     ProductView,
-    SupplierTable,
-    OrderComponent,
+    Supplier,
+    Order,
     Report,
+    Store,
 };
