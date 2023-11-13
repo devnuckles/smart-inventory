@@ -150,7 +150,7 @@ func (s *Server) getProduct(ctx *gin.Context) {
 	}
 
 	if product == nil {
-		logger.Error(ctx, "user not found", err)
+		logger.Error(ctx, "product not found", err)
 		ctx.JSON(http.StatusNotFound, s.svc.Error(ctx, util.EN_API_PARAMETER_INVALID_ERROR, "Not Found"))
 		return
 	}
@@ -158,10 +158,11 @@ func (s *Server) getProduct(ctx *gin.Context) {
 	getProduct := productRes{
 		Name:        product.Name,
 		Category:    product.Category,
+		Image:       product.Image,
 		BuyingPrice: product.BuyingPrice,
 		Quantity:    product.Quantity,
 		ExpiryDate:  product.ExpiryDate,
 	}
 
-	ctx.JSON(http.StatusOK, s.svc.Response(ctx, "Fetched user successfully", getProduct))
+	ctx.JSON(http.StatusOK, s.svc.Response(ctx, "Fetched product successfully", getProduct))
 }

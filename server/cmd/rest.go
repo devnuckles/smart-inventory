@@ -21,6 +21,7 @@ func serveRest() {
 	saltConfig := config.GetSalt()
 	tokenConfig := config.GetToken()
 	s3Config := config.GetS3()
+	smtpConfig := config.GetSmtpHost()
 
 	sess, err := session.NewSession(&aws.Config{
 		Region: aws.String(awsConfig.Region),
@@ -43,7 +44,7 @@ func serveRest() {
 	authorization := permission.NewAuthorization()
 	cache := cache.NewCache(redisClient)
 
-	svc := service.NewService(userRepo, productRepo, fileRepo, errorRepo, cache, authorization, orderRepo)
+	svc := service.NewService(userRepo, productRepo, fileRepo, errorRepo, cache, authorization, orderRepo, smtpConfig)
 	server, err := rest.NewServer(appConfig, svc, saltConfig, tokenConfig)
 	if err != nil {
 		panic("Server can not start")

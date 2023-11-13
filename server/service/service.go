@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 
+	"github.com/Tonmoy404/Smart-Inventory/config"
 	"github.com/Tonmoy404/Smart-Inventory/logger"
 	"github.com/Tonmoy404/Smart-Inventory/util"
 )
@@ -15,7 +16,8 @@ type service struct {
 	cache         Cache
 	authorization Authorization
 	productRepo   ProductRepo
-	orderRepo OrderRepo
+	orderRepo     OrderRepo
+	smtpConfig    *config.Smtp
 }
 
 func NewService(
@@ -26,6 +28,7 @@ func NewService(
 	cache Cache,
 	authorization Authorization,
 	orderRepo OrderRepo,
+	smtpConfig *config.Smtp,
 ) Service {
 	return &service{
 		userRepo:      userRepo,
@@ -34,7 +37,8 @@ func NewService(
 		errRepo:       errorRepo,
 		cache:         cache,
 		authorization: authorization,
-		orderRepo: orderRepo,
+		orderRepo:     orderRepo,
+		smtpConfig:    smtpConfig,
 	}
 }
 

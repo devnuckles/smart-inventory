@@ -14,6 +14,7 @@ var awsOnce = sync.Once{}
 var saltOnce = sync.Once{}
 var tokenOnce = sync.Once{}
 var s3Once = sync.Once{}
+var smtpOnce = sync.Once{}
 
 type Application struct {
 	Host string `mapstructure:"HOST"`
@@ -21,10 +22,11 @@ type Application struct {
 }
 
 type Table struct {
-	ErrorTableName   string `mapstructure:"ERROR_TABLE_NAME"`
-	UserTableName    string `mapstructure:"USER_TABLE_NAME"`
-	ProdcutTableName string `mapstructure:"PRODUCT_TABLE_NAME"`
-	OrderTableName   string `mapstructure:"ORDER_TABLE_NAME"`
+	ErrorTableName    string `mapstructure:"ERROR_TABLE_NAME"`
+	UserTableName     string `mapstructure:"USER_TABLE_NAME"`
+	ProdcutTableName  string `mapstructure:"PRODUCT_TABLE_NAME"`
+	OrderTableName    string `mapstructure:"ORDER_TABLE_NAME"`
+	SupplierTableName string `mapstructure:"SUPPLIER_TABLE_NAME"`
 }
 
 type Aws struct {
@@ -45,12 +47,20 @@ type S3 struct {
 	Bucket string `mapstructure:"S3_BUCKET"`
 }
 
+type Smtp struct {
+	Email    string `mapstructure:"SMTP_EMAIL"`
+	Password string `mapstructure:"SMTP_PASSWORD"`
+	Host     string `mapstructure:"SMTP_HOST"`
+	Port     string `mapstructure:"SMTP_PORT"`
+}
+
 var appConfig *Application
 var awsConfig *Aws
 var tableConfig *Table
 var saltConfig *Salt
 var tokenConfig *Token
 var s3Config *S3
+var smtpConfig *Smtp
 
 func loadApp() {
 	err := godotenv.Load(".env")
@@ -81,6 +91,21 @@ func loadAws() {
 	}
 }
 
+func loadSmtp() {
+	err := godotenv.Load((".env"))
+	if err != nil {
+		fmt.Println(".env file was not found, that's okay")
+	}
+	viper.AutomaticEnv()
+
+	smtpConfig = &Smtp{
+		Email:    viper.GetString("SMTP_EMAIL"),
+		Password: viper.GetString("SMTP_PASSWORD"),
+		Host:     viper.GetString("SMTP_HOST"),
+		Port:     viper.GetString("SMTP_PORT"),
+	}
+}
+
 func loadTable() {
 	err := godotenv.Load(".env")
 	if err != nil {
@@ -90,10 +115,11 @@ func loadTable() {
 	viper.AutomaticEnv()
 
 	tableConfig = &Table{
-		UserTableName:    viper.GetString("USER_TABLE_NAME"),
-		ErrorTableName:   viper.GetString("ERROR_TABLE_NAME"),
-		ProdcutTableName: viper.GetString("PRODUCT_TABLE_NAME"),
-		OrderTableName:   viper.GetString("ORDER_TABLE_NAME"),
+		UserTableName:     viper.GetString("USER_TABLE_NAME"),
+		ErrorTableName:    viper.GetString("ERROR_TABLE_NAME"),
+		ProdcutTableName:  viper.GetString("PRODUCT_TABLE_NAME"),
+		OrderTableName:    viper.GetString("ORDER_TABLE_NAME"),
+		SupplierTableName: viper.GetString("SUPPLIER_TABLE_NAME"),
 	}
 }
 
@@ -176,4 +202,11 @@ func GetToken() *Token {
 		loadToken()
 	})
 	return tokenConfig
+}
+
+func GetSmtpHost() *Smtp {
+	smtpOnce.Do(func() {
+		loadSmtp()
+	})
+	return smtpConfig
 }

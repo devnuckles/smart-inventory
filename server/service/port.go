@@ -4,6 +4,8 @@ import (
 	"context"
 	"mime/multipart"
 	"time"
+
+	"github.com/360EntSecGroup-Skylar/excelize"
 )
 
 type Service interface {
@@ -27,6 +29,8 @@ type Service interface {
 	GetOrderByID(ctx context.Context, id string) (*Order, error)
 	UpdateOrder(ctx context.Context, order *Order) error
 	GetAllOrders(ctx context.Context) (*OrdersResult, error)
+	GetOrderBody(ctx context.Context, order *Order) (*excelize.File, error)
+	SendMail(ctx context.Context, emailTo []string, subject, emailBody string, file *excelize.File) error
 
 	////File Services
 	UploadFile(ctx context.Context, file multipart.File, fileHeader *multipart.FileHeader) (string, error)

@@ -50,10 +50,11 @@ func (server *Server) setupRouter() {
 
 	///product routes
 
-	authRoutes.POST("/api/item/create", server.createProduct)
-	authRoutes.DELETE("/api/item/:id", server.deleteProduct)
-	authRoutes.PATCH("/api/item/:id", server.updateProduct)
-	authRoutes.GET("/api/items/all", server.getAllProducts)
+	authRoutes.POST("/api/items/create", server.createProduct)   //testing done
+	authRoutes.DELETE("/api/items/:id", server.deleteProduct)    //testing done
+	authRoutes.PATCH("/api/items/:id", server.updateProduct)     //testing done
+	authRoutes.GET("/api/items/:id", server.getProduct)          //testing done
+	authRoutes.GET("/api/items/all", server.getAllProducts)      //testing done
 
 	///order routes
 	authRoutes.POST("/api/order/create", server.createOrder)

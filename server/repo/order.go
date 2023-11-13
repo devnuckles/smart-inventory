@@ -113,24 +113,32 @@ func (r *orderRepo) UpdateOrder(ctx context.Context, order *service.Order) error
 		},
 		ExpressionAttributeValues: map[string]*dynamodb.AttributeValue{
 			":c": {
-				S: aws.String(order.CustomerID),
+				S: aws.String(order.VendorEmail),
 			},
 			":p": {
-				S: aws.String(order.ProductID),
+				S: aws.String(order.ProductName),
 			},
 			":q": {
 				N: aws.String(fmt.Sprintf("%d", order.Quantity)),
 			},
 			":t": {
-				N: aws.String(fmt.Sprintf("%f", order.TotalAmount)),
+				N: aws.String(fmt.Sprintf("%f", order.BuyingPrice)),
+			},
+			":ct": {
+				S: aws.String(order.Category),
+			},
+			":d": {
+				N: aws.String(fmt.Sprintf("%d", order.DeliveryDate)),
 			},
 		},
-		UpdateExpression: aws.String("SET #c = :c, #p = :p, #q = :q, #t = :t"),
+		UpdateExpression: aws.String("SET #c = :c, #p = :p, #q = :q, #t = :t, #ct = :ct, #d = :d"),
 		ExpressionAttributeNames: map[string]*string{
 			"#c": aws.String("CustomerId"),
 			"#p": aws.String("ProductId"),
 			"#q": aws.String("Quantity"),
 			"#t": aws.String("TotalAmount"),
+			"#ct": aws.String("Category"),
+			"#d": aws.String("DeliveryDate"),
 		},
 	}
 

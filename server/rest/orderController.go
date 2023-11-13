@@ -27,11 +27,13 @@ func (s *Server) createOrder(ctx *gin.Context) {
 	}
 
 	order := &service.Order{
-		ID:     orderId.String(),
-		ProductID:   req.ProductId,
-		CustomerID:  req.CustomerId,
-		Quantity:    int(req.Quantity),
-		TotalAmount: req.TotalAmount,
+		ID:           orderId.String(),
+		ProductName:  req.ProductName,
+		VendorEmail:  req.VendorEmail,
+		Category:     req.Category,
+		Quantity:     int(req.Quantity),
+		OrderDate:    util.GetCurrentTimestamp(),
+		DeliveryDate: req.DeliveryDate,
 	}
 
 	err = s.svc.CreateOrder(ctx, order)
@@ -40,6 +42,10 @@ func (s *Server) createOrder(ctx *gin.Context) {
 		ctx.JSON(http.StatusInternalServerError, s.svc.Error(ctx, util.EN_INTERNAL_SERVER_ERROR, "Internal Server Error"))
 		return
 	}
+
+	orderBody, _ := s.svc.GetOrderBody(ctx, order)
+	mailBody := generateEmailBody()
+	err = s.svc.SendMail(ctx, []string{req.VendorEmail}, "Request for New Order",mailBody , orderBody)
 
 	ctx.JSON(http.StatusOK, s.svc.Response(ctx, "Order Created Successfully", nil))
 }
@@ -73,10 +79,13 @@ func (s *Server) getOrder(ctx *gin.Context) {
 	}
 
 	getOrder := orderRes{
-		ProductId:   order.ProductID,
-		CustomerId:  order.CustomerID,
-		Quantity:    int64(order.Quantity),
-		TotalAmount: order.TotalAmount,
+		ProductName:  order.ProductName,
+		VendorName:   order.VendorEmail,
+		Category:     order.Category,
+		BuyingPrice:  order.BuyingPrice,
+		Quantity:     int64(order.Quantity),
+		OrderDate:    order.OrderDate,
+		DeliveryDate: order.DeliveryDate,
 	}
 
 	ctx.JSON(http.StatusOK, s.svc.Response(ctx, "Fetched order successfully", getOrder))
@@ -91,7 +100,7 @@ func (s *Server) updateOrder(ctx *gin.Context) {
 		return
 	}
 
-	if existingOrder ==  nil {
+	if existingOrder == nil {
 		logger.Error(ctx, "order not found", err)
 		ctx.JSON(http.StatusNotFound, s.svc.Error(ctx, util.EN_NOT_FOUND, "Not Found"))
 		return
@@ -106,10 +115,12 @@ func (s *Server) updateOrder(ctx *gin.Context) {
 	}
 
 	order := &service.Order{
-		ProductID:   req.ProductId,
-		CustomerID:  req.CustomerId,
-		Quantity:    int(req.Quantity),
-		TotalAmount: req.TotalAmount,
+		ProductName:  req.ProductName,
+		Category:     req.Category,
+		BuyingPrice:  req.BuyingPrice,
+		VendorEmail:  req.VendorEmail,
+		Quantity:     int(req.Quantity),
+		DeliveryDate: req.DeliveryDate,
 	}
 
 	err = s.svc.UpdateOrder(ctx, order)
@@ -122,7 +133,7 @@ func (s *Server) updateOrder(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, s.svc.Response(ctx, "Order Updated Successfully", order))
 }
 
-func (s *Server) getAllOrders(ctx *gin.Context){
+func (s *Server) getAllOrders(ctx *gin.Context) {
 	orders, err := s.svc.GetAllOrders(ctx)
 	if err != nil {
 		logger.Error(ctx, "cannot get all orders", err)
@@ -133,11 +144,12 @@ func (s *Server) getAllOrders(ctx *gin.Context){
 	var orderRes []*orderResponse
 	for _, order := range orders.Orders {
 		res := &orderResponse{
-			OrderId: order.ID,
-			ProductID: order.ProductID,
-			CustomerID: order.CustomerID,
-			Quantity: int64(order.Quantity),
-			TotalAmount: order.TotalAmount,
+			OrderId:      order.ID,
+			ProductName:  order.ProductName,
+			BuyingPrice:  order.BuyingPrice,
+			Quantity:     int64(order.Quantity),
+			DeliveryDate: order.DeliveryDate,
+			Status:       order.Status,
 		}
 		orderRes = append(orderRes, res)
 	}

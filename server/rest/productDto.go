@@ -42,6 +42,7 @@ type getProductRes struct {
 type productRes struct {
 	Name        string  `json:"name"`
 	Category    string  `json:"category"`
+	Image       string  `json:"img"`
 	BuyingPrice float64 `json:"buying_price"`
 	Quantity    int64   `json:"quantity"`
 	ExpiryDate  int64   `json:"expiry_date"`
