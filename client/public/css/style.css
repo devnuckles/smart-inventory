@@ -359,3 +359,17 @@
     border: 1px solid var(--grey-grey-50, #f0f1f3);
     background: #fff !important;
 }
+
+/* Product View  Page  */
+.product-view-parent {
+    background: var(--grey-grey-50, #f0f1f3);
+}
+.product-view-wrapper {
+    border-radius: 8px !important;
+}
+.product-view-header-button button {
+    padding: 10px 16px !important;
+    border-color: rgba(16, 24, 40, 0.05);
+    transition: all linear 0.3s;
+    color: #5d6679 !important;
+}

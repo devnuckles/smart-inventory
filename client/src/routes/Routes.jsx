@@ -4,6 +4,7 @@ import DashboardLayout from "../modules/core/common/dashboard/layout";
 import Dashboard from "../modules/core/common/dashboard/Dashboard.component";
 import Inventory from "../modules/core/common/dashboard/Inventory.component";
 import InventoryModal from "../modules/core/common/dashboard/InventoryModal.component";
+import ProductView from "../modules/core/common/dashboard/ProductView.component";
 
 const Routes = createBrowserRouter([
     {
@@ -31,6 +32,14 @@ const Routes = createBrowserRouter([
         element: (
             <DashboardLayout>
                 <InventoryModal />
+            </DashboardLayout>
+        ),
+    },
+    {
+        path: "/product-view",
+        element: (
+            <DashboardLayout>
+                <ProductView />
             </DashboardLayout>
         ),
     },
