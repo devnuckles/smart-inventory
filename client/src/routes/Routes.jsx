@@ -1,5 +1,11 @@
 import { createBrowserRouter } from "react-router-dom";
-import { Login, Dashboard, Inventory, ProductView } from "../modules/platform";
+import {
+    Login,
+    Dashboard,
+    Inventory,
+    ProductView,
+    SupplierTable,
+} from "../modules/platform";
 import { DashboardLayout } from "../modules/core";
 
 const Routes = createBrowserRouter([
@@ -32,14 +38,14 @@ const Routes = createBrowserRouter([
             </DashboardLayout>
         ),
     },
-    // {
-    //     path: "/test-route",
-    //     element: (
-    //         <DashboardLayout>
-    //             <InventoryModal />
-    //         </DashboardLayout>
-    //     ),
-    // },
+    {
+        path: "/suppliers",
+        element: (
+            <DashboardLayout>
+                <SupplierTable />
+            </DashboardLayout>
+        ),
+    },
 ]);
 
 export default Routes;
