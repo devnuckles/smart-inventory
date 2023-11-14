@@ -1,33 +1,42 @@
-import axios from "react";
-
-export default function Login() {
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+export function Login() {
+  const navigate = useNavigate();
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     const email = event.target.elements.email.value;
     const password = event.target.elements.password.value;
 
-    console.log(email, password);
+    const formData = {
+      email: email,
+      password: password,
+    };
 
-    const formData = new FormData();
-    formData.append("email", "email");
-    formData.append("password", "password");
-
-    console.log("asdsaaaaaaaaaaaaaaaaaa", formData);
     try {
       const response = await axios.post(
-        "http://localhost:3001/appi/users/login",
+        "http://localhost:3001/api/users/login",
         formData,
         {
-          headers: { "Content-Type": "multipart/form-data" },
+          headers: { "Content-Type": "application/json" },
         }
       );
 
-      console.log(response.data);
+      const token = response.data.data.token;
+
+      if (token != "") {
+        navigate("/dashboard");
+      }
     } catch (error) {
       console.error(error);
     }
   };
+
+  const handleSignup = () => {
+    navigate("/signup");
+  };
+
+  // Rest of the component code...
 
   return (
     <>
@@ -134,7 +143,12 @@ export default function Login() {
               <div className="col-lg-12 mt-3 dont-have-a-account">
                 <p className="text-secondary text-center m-0 px-3 py-2">
                   Don’t have an account?
-                  <a className="ms-2 text-decoration-none">Sign up</a>
+                  <a
+                    className="ms-2 text-decoration-none"
+                    onClick={handleSignup}
+                  >
+                    Sign up
+                  </a>
                 </p>
               </div>
             </div>

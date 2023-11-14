@@ -57,7 +57,7 @@ func (s *Server) signupUser(ctx *gin.Context) {
 	user = &service.User{
 		ID:          userID.String(),
 		Username:    "Not Set",
-		Fullname:    "Not Set",
+		Fullname:    req.Name,
 		Email:       req.Email,
 		Password:    string(hashedPass),
 		PhoneNumber: "Not Set",
@@ -141,7 +141,7 @@ func (s *Server) addUser(ctx *gin.Context) {
 
 func (s *Server) loginUser(ctx *gin.Context) {
 	var req loginUserReq
-	err := ctx.ShouldBind(&req)
+	err := ctx.ShouldBindJSON(&req)
 	if err != nil {
 		logger.Error(ctx, "cannot pass validation", err)
 		ctx.JSON(http.StatusBadRequest, s.svc.Error(ctx, util.EN_API_PARAMETER_INVALID_ERROR, "Bad request"))
