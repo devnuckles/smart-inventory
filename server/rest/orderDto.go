@@ -9,6 +9,9 @@ type createOrderReq struct {
 	DeliveryDate int64   `form:"delivery_date" binding:"required"`
 }
 
+type newOrder struct{
+}
+
 type updateOrderReq struct {
 	ProductName  string  `form:"product_name" binding:"required"`
 	VendorEmail  string  `form:"vendor_email" binding:"required"`
